@@ -1,0 +1,129 @@
+{
+  "expo": {
+    "name": "EduDashPro",
+    "slug": "edudashpro",
+    "owner": "dashpro",
+    "version": "1.0.2",
+    "runtimeVersion": "1.0.2",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "scheme": "edudashpro",
+    "newArchEnabled": true,
+    "assetBundlePatterns": [
+      "**/*",
+      "locales/**/*.json"
+    ],
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.k1ngdevops.edudashpro",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "This app needs access to your microphone so Dash can hear your questions and provide voice responses.",
+        "NSCameraUsageDescription": "This app needs camera access so you can take photos to share with Dash.",
+        "NSPhotoLibraryUsageDescription": "This app needs access to your photo library so you can share images with Dash."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.edudashpro",
+      "permissions": [
+        "android.permission.INTERNET",
+        "android.permission.ACCESS_NETWORK_STATE",
+        "android.permission.WAKE_LOCK",
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        "android.permission.VIBRATE",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.CAMERA",
+        "android.permission.READ_MEDIA_IMAGES",
+        "android.permission.READ_EXTERNAL_STORAGE"
+      ],
+      "blockedPermissions": [
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION"
+      ],
+      "versionCode": 3
+    },
+    "plugins": [
+      "expo-router",
+      "expo-updates",
+      "sentry-expo",
+      "expo-audio",
+      "@react-native-voice/voice",
+      "expo-speech-recognition",
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-2808416461095370~5255516826",
+          "iosAppId": "ca-app-pub-3940256099942544~1458002511"
+        }
+      ],
+      "expo-localization",
+      "expo-secure-store",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#00f5ff",
+          "defaultChannel": "default",
+          "sounds": [
+            "./assets/sounds/notification.wav"
+          ]
+        }
+      ],
+      "./plugins/withAndroidManifestFix.js"
+    ],
+    "experiments": {
+      "typedRoutes": false
+    },
+    "developmentClient": {
+      "silentLaunch": true
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "name": "EduDash Pro - AI-Powered Educational Platform",
+      "shortName": "EduDash Pro",
+      "lang": "en",
+      "scope": "/",
+      "themeColor": "#00f5ff",
+      "backgroundColor": "#0a0a0f",
+      "description": "Revolutionary AI-powered educational platform for preschools. Trusted by educators worldwide for next-generation learning experiences with Society 5.0 technology.",
+      "keywords": [
+        "education",
+        "preschool",
+        "AI",
+        "learning",
+        "teachers",
+        "parents",
+        "lessons",
+        "artificial intelligence",
+        "educational technology",
+        "edtech"
+      ],
+      "author": "EduDash Pro Team",
+      "viewport": "width=device-width, initial-scale=1, shrink-to-fit=no",
+      "startUrl": "/",
+      "display": "standalone",
+      "orientation": "any",
+      "bundler": "metro"
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "ab7c9230-2f47-4bfa-b4f4-4ae516a334bc"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/ab7c9230-2f47-4bfa-b4f4-4ae516a334bc"
+    }
+  }
+}

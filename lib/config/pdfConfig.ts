@@ -1,0 +1,198 @@
+/**
+ * PDF Generation Configuration
+ * Feature flags and settings for enhanced PDF generation system
+ */
+
+export interface PDFConfig {
+  // Feature flags
+  enableEnhancedPDFGeneration: boolean;
+  enableTemplatePreview: boolean;
+  enablePDFHistory: boolean;
+  enableBulkGeneration: boolean;
+  
+  // Engine selection
+  pdfEngine: 'legacy' | 'enhanced' | 'auto';
+  
+  // Size and performance constraints
+  maxPDFSizeBytes: number;
+  maxImageSizeBytes: number;
+  maxImagesPerDocument: number;
+  generationTimeoutMs: number;
+  
+  // Quality settings
+  imageQuality: number; // 0-1
+  enablePageNumbers: boolean;
+  enableWatermark: boolean;
+  defaultTheme: 'professional' | 'colorful' | 'minimalist';
+  
+  // Template defaults
+  defaultPaperSize: 'A4' | 'Letter';
+  defaultOrientation: 'portrait' | 'landscape';
+  defaultFontFamily: string;
+  
+  // AI generation settings
+  aiConfidenceThreshold: number; // 0-1, threshold for auto-generation
+  enableStructuredOutput: boolean;
+  enableContentValidation: boolean;
+  
+  // Storage and history
+  maxHistoryItems: number;
+  enableLocalStorage: boolean;
+  enableCloudBackup: boolean;
+}
+
+// Default configuration
+export const DEFAULT_PDF_CONFIG: PDFConfig = {
+  // Feature flags - start with enhanced features enabled
+  enableEnhancedPDFGeneration: true,
+  enableTemplatePreview: true,
+  enablePDFHistory: true,
+  enableBulkGeneration: false, // Will enable in Phase 4
+  
+  // Engine selection
+  pdfEngine: 'enhanced', // Can toggle to 'legacy' if issues arise
+  
+  // Size constraints (5MB budget)
+  maxPDFSizeBytes: 5 * 1024 * 1024, // 5MB
+  maxImageSizeBytes: 500 * 1024, // 500KB per image
+  maxImagesPerDocument: 10,
+  generationTimeoutMs: 30000, // 30 seconds
+  
+  // Quality
+  imageQuality: 0.8,
+  enablePageNumbers: true,
+  enableWatermark: false,
+  defaultTheme: 'professional',
+  
+  // Template defaults
+  defaultPaperSize: 'A4',
+  defaultOrientation: 'portrait',
+  defaultFontFamily: 'Arial, sans-serif',
+  
+  // AI settings
+  aiConfidenceThreshold: 0.7,
+  enableStructuredOutput: true,
+  enableContentValidation: true,
+  
+  // Storage
+  maxHistoryItems: 50,
+  enableLocalStorage: true,
+  enableCloudBackup: false,
+};
+
+// Runtime configuration (can be overridden by env vars or user settings)
+let runtimeConfig: PDFConfig = { ...DEFAULT_PDF_CONFIG };
+
+/**
+ * Get current PDF configuration
+ */
+export function getPDFConfig(): PDFConfig {
+  return { ...runtimeConfig };
+}
+
+/**
+ * Update PDF configuration
+ */
+export function updatePDFConfig(updates: Partial<PDFConfig>): void {
+  runtimeConfig = { ...runtimeConfig, ...updates };
+}
+
+/**
+ * Reset to default configuration
+ */
+export function resetPDFConfig(): void {
+  runtimeConfig = { ...DEFAULT_PDF_CONFIG };
+}
+
+/**
+ * Check if enhanced PDF generation is enabled
+ */
+export function isEnhancedPDFEnabled(): boolean {
+  return runtimeConfig.enableEnhancedPDFGeneration && 
+         (runtimeConfig.pdfEngine === 'enhanced' || runtimeConfig.pdfEngine === 'auto');
+}
+
+/**
+ * Check if legacy PDF generation should be used
+ */
+export function shouldUseLegacyPDF(): boolean {
+  return runtimeConfig.pdfEngine === 'legacy' || 
+         (!runtimeConfig.enableEnhancedPDFGeneration && runtimeConfig.pdfEngine === 'auto');
+}
+
+/**
+ * Load configuration from environment variables
+ */
+export function loadPDFConfigFromEnv(): void {
+  if (typeof process !== 'undefined' && process.env) {
+    const env = process.env;
+    
+    if (env.PDF_ENGINE) {
+      runtimeConfig.pdfEngine = env.PDF_ENGINE as 'legacy' | 'enhanced' | 'auto';
+    }
+    
+    if (env.ENABLE_ENHANCED_PDF) {
+      runtimeConfig.enableEnhancedPDFGeneration = env.ENABLE_ENHANCED_PDF === 'true';
+    }
+    
+    if (env.PDF_MAX_SIZE_MB) {
+      runtimeConfig.maxPDFSizeBytes = parseInt(env.PDF_MAX_SIZE_MB) * 1024 * 1024;
+    }
+    
+    if (env.PDF_DEFAULT_THEME) {
+      runtimeConfig.defaultTheme = env.PDF_DEFAULT_THEME as any;
+    }
+    
+    if (env.PDF_AI_CONFIDENCE_THRESHOLD) {
+      runtimeConfig.aiConfidenceThreshold = parseFloat(env.PDF_AI_CONFIDENCE_THRESHOLD);
+    }
+  }
+}
+
+// Auto-load config from environment on import
+loadPDFConfigFromEnv();
+
+/**
+ * Document type enumeration
+ */
+export enum PDFDocumentType {
+  WORKSHEET = 'worksheet',
+  STUDY_GUIDE = 'study_guide',
+  LESSON_PLAN = 'lesson_plan',
+  PROGRESS_REPORT = 'progress_report',
+  ASSESSMENT = 'assessment',
+  CERTIFICATE = 'certificate',
+  NEWSLETTER = 'newsletter',
+  GENERAL = 'general',
+}
+
+/**
+ * PDF theme options
+ */
+export enum PDFTheme {
+  PROFESSIONAL = 'professional',
+  COLORFUL = 'colorful',
+  MINIMALIST = 'minimalist',
+}
+
+/**
+ * Branding configuration
+ */
+export interface PDFBranding {
+  logoUri?: string; // base64 or URL
+  organizationName?: string;
+  primaryColor?: string;
+  accentColor?: string;
+  watermarkText?: string;
+  footerText?: string;
+}
+
+/**
+ * Default branding for EduDash Pro
+ */
+export const DEFAULT_BRANDING: PDFBranding = {
+  organizationName: 'EduDash Pro',
+  primaryColor: '#1565c0',
+  accentColor: '#42a5f5',
+  footerText: 'Generated by Dash AI • EduDash Pro',
+};

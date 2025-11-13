@@ -1,0 +1,5 @@
+# Documentation ownership
+# Ensure any changes under docs/ are reviewed by the core maintainers
+# Note: OBSOLETE is archived; changes there are generally discouraged
+
+docs/ @king @maintainers

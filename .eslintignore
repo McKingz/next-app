@@ -1,0 +1,16 @@
+# Ignore old/deprecated files
+**/*.old.tsx
+**/*.old.ts
+**/*.old.js
+
+# Ignore build outputs
+.expo/
+dist/
+build/
+*.d.ts
+
+# Ignore node_modules
+node_modules/
+
+# Ignore cache directories
+.cache/

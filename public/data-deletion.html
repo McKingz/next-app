@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Request deletion of your personal data from EduDash Pro. GDPR and POPIA compliant data deletion process.">
+    <title>Data Deletion Request | EduDash Pro</title>
+    <style>
+        :root {
+            --primary-color: #00f5ff;
+            --dark-bg: #0a0a0f;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --card-bg: #1a1a24;
+            --border-color: #2a2a3a;
+            --success-color: #00ff88;
+            --error-color: #ff4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 245, 255, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-top: 32px;
+            margin-bottom: 16px;
+            color: var(--primary-color);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        p, li {
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+        }
+
+        ul {
+            margin-left: 24px;
+            margin-bottom: 16px;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .info-box {
+            background: rgba(0, 245, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .warning-box {
+            background: rgba(255, 170, 0, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #ffaa00;
+        }
+
+        .warning-box p {
+            color: #ffaa00;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        label .required {
+            color: var(--error-color);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            background: var(--dark-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+
+        button {
+            background: var(--primary-color);
+            color: var(--dark-bg);
+            padding: 14px 32px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .success-message {
+            background: rgba(0, 255, 136, 0.1);
+            border: 2px solid var(--success-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 24px;
+            display: none;
+        }
+
+        .success-message h3 {
+            color: var(--success-color);
+            margin-top: 0;
+        }
+
+        .error-message {
+            background: rgba(255, 68, 68, 0.1);
+            border: 2px solid var(--error-color);
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            color: var(--error-color);
+            display: none;
+        }
+
+        .timeline {
+            background: rgba(0, 245, 255, 0.05);
+            padding: 24px;
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-number {
+            background: var(--primary-color);
+            color: var(--dark-bg);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .json-output {
+            background: var(--dark-bg);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin-top: 16px;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗑️ Data Deletion Request</h1>
+        
+        <p>We respect your right to data privacy. Use this form to request deletion of your personal data from EduDash Pro in accordance with GDPR, POPIA, and COPPA regulations.</p>
+
+        <div class="info-box">
+            <h3>Before You Begin</h3>
+            <p>Please read our <a href="https://www.edudashpro.org.za/privacy-policy">Privacy Policy</a> to understand what data we collect and how we use it.</p>
+        </div>
+
+        <div class="warning-box">
+            <h3>⚠️ Important Information</h3>
+            <ul>
+                <li><strong>30-Day Grace Period:</strong> Your data will be marked for deletion but can be recovered within 30 days if you change your mind.</li>
+                <li><strong>Permanent Deletion:</strong> After 30 days, your data will be permanently deleted from our active systems.</li>
+                <li><strong>Legal Requirements:</strong> Some data (financial records, security logs) must be retained for legal compliance (up to 7 years).</li>
+                <li><strong>Account Deletion:</strong> If you request full account deletion, you will lose access to all EduDash Pro services.</li>
+            </ul>
+        </div>
+
+        <h2>What Happens Next?</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-number">1</div>
+                <div>
+                    <strong>Identity Verification</strong><br>
+                    We will verify your identity via email (typically within 72 hours)
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-number">2</div>
+                <div>
+                    <strong>Confirmation Email</strong><br>
+                    You'll receive a confirmation link to authorize the deletion
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-number">3</div>
+                <div>
+                    <strong>30-Day Grace Period</strong><br>
+                    Data marked for deletion but recoverable if you contact us
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-number">4</div>
+                <div>
+                    <strong>Permanent Deletion</strong><br>
+                    After 30 days, data is permanently removed from active systems
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-number">5</div>
+                <div>
+                    <strong>Final Confirmation</strong><br>
+                    You'll receive an email confirming the deletion is complete
+                </div>
+            </div>
+        </div>
+
+        <h2>Deletion Request Form</h2>
+        
+        <form id="deletionForm">
+            <div class="form-group">
+                <label for="fullName">Full Name <span class="required">*</span></label>
+                <input type="text" id="fullName" name="fullName" required placeholder="First and Last Name">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address <span class="required">*</span></label>
+                <input type="email" id="email" name="email" required placeholder="email@example.com">
+                <small style="color: var(--text-secondary);">Must match the email associated with your EduDash Pro account</small>
+            </div>
+
+            <div class="form-group">
+                <label for="role">User Role <span class="required">*</span></label>
+                <select id="role" name="role" required>
+                    <option value="">-- Select Your Role --</option>
+                    <option value="principal">Principal / School Administrator</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="parent">Parent / Guardian</option>
+                    <option value="student">Student (submitted by parent/guardian)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="preschool">Preschool / Organization Name (Optional)</label>
+                <input type="text" id="preschool" name="preschool" placeholder="Name of your preschool">
+                <small style="color: var(--text-secondary);">Helps us locate your account faster</small>
+            </div>
+
+            <div class="form-group">
+                <label>What data would you like to delete? <span class="required">*</span></label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="fullAccount" name="deletionType" value="full_account">
+                        <label for="fullAccount"><strong>Full Account Deletion</strong> - Delete my entire account and all associated data (you will lose access to EduDash Pro)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="voiceRecordings" name="deletionType" value="voice_recordings">
+                        <label for="voiceRecordings">Voice Recordings - Delete my voice recordings and audio cache</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="aiConversations" name="deletionType" value="ai_conversations">
+                        <label for="aiConversations">AI Conversations - Delete my conversation history with Dash AI assistant</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="uploadedFiles" name="deletionType" value="uploaded_files">
+                        <label for="uploadedFiles">Uploaded Files - Delete photos, documents, and files I've uploaded</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="analyticsData" name="deletionType" value="analytics_data">
+                        <label for="analyticsData">Analytics Data - Delete usage analytics and app activity logs</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="otherData" name="deletionType" value="other">
+                        <label for="otherData">Other - Specify in the reason below</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="reason">Reason for Deletion (Optional)</label>
+                <textarea id="reason" name="reason" placeholder="Please tell us why you're requesting data deletion. This helps us improve our service."></textarea>
+            </div>
+
+            <div class="form-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="consent" name="consent" required>
+                    <label for="consent">
+                        <strong>I understand and consent <span class="required">*</span></strong><br>
+                        I confirm that I am the account owner or authorized representative, and I understand that:
+                        <ul style="margin-top: 8px;">
+                            <li>My data will be marked for deletion immediately</li>
+                            <li>I have 30 days to recover my data before permanent deletion</li>
+                            <li>Some data may be retained for legal compliance</li>
+                            <li>If I delete my full account, I will lose access to all services</li>
+                        </ul>
+                    </label>
+                </div>
+            </div>
+
+            <div class="error-message" id="errorMessage"></div>
+
+            <div class="button-group">
+                <button type="submit">Submit Deletion Request</button>
+                <button type="button" onclick="window.location.href='https://www.edudashpro.org.za/privacy-policy'" style="background: var(--card-bg); color: var(--text-primary); border: 2px solid var(--border-color);">
+                    View Privacy Policy
+                </button>
+            </div>
+        </form>
+
+        <div class="success-message" id="successMessage">
+            <h3>✅ Request Submitted Successfully!</h3>
+            <p>Your data deletion request has been submitted. Here's what happens next:</p>
+            <ul>
+                <li>You will receive a verification email within 72 hours to <strong id="submittedEmail"></strong></li>
+                <li>Click the link in the email to confirm your identity and authorize the deletion</li>
+                <li>Your data will be marked for deletion with a 30-day grace period</li>
+                <li>You'll receive a final confirmation email when the deletion is complete</li>
+            </ul>
+            
+            <h3>Your Request Details:</h3>
+            <div class="json-output" id="jsonOutput"></div>
+            
+            <button onclick="copyJSON()" style="margin-top: 16px;">📋 Copy Request Details</button>
+            <button onclick="downloadJSON()" style="margin-top: 16px; margin-left: 16px; background: var(--card-bg); color: var(--text-primary); border: 2px solid var(--border-color);">
+                💾 Download as JSON
+            </button>
+            
+            <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border-color);">
+                <p><strong>Need help?</strong> Contact us at <a href="mailto:privacy@edudashpro.org.za">privacy@edudashpro.org.za</a></p>
+            </div>
+        </div>
+
+        <h2>Frequently Asked Questions</h2>
+        
+        <h3>Can I recover my data after deletion?</h3>
+        <p>Yes, within the 30-day grace period. After that, data is permanently deleted and cannot be recovered.</p>
+
+        <h3>What data cannot be deleted?</h3>
+        <p>For legal compliance, we must retain:</p>
+        <ul>
+            <li>Financial records (invoices, payment transactions) - 7 years (South African law)</li>
+            <li>Security logs for fraud investigation - 1 year</li>
+            <li>Data required for ongoing legal proceedings</li>
+        </ul>
+
+        <h3>How long does the deletion process take?</h3>
+        <ul>
+            <li>Identity verification: 1-3 business days</li>
+            <li>Grace period: 30 days</li>
+            <li>Active system deletion: Immediate after grace period</li>
+            <li>Backup removal: Within 90 days</li>
+        </ul>
+
+        <h3>Can I request deletion of my child's data?</h3>
+        <p>Yes. Parents/guardians can request deletion of their child's data. Select "Student" as the role and provide the child's information. We will verify your parental/guardian status before processing.</p>
+
+        <h3>What happens to my preschool's data if I'm a principal?</h3>
+        <p>If you're the principal/owner, deleting your account may affect your entire preschool's access. Please contact us at <a href="mailto:privacy@edudashpro.org.za">privacy@edudashpro.org.za</a> to discuss a proper handover process.</p>
+
+        <hr style="margin: 40px 0; border: none; border-top: 1px solid var(--border-color);">
+
+        <div style="text-align: center; color: var(--text-secondary);">
+            <p>
+                <strong>Privacy Inquiries:</strong> <a href="mailto:privacy@edudashpro.org.za">privacy@edudashpro.org.za</a><br>
+                <strong>Privacy Policy:</strong> <a href="https://www.edudashpro.org.za/privacy-policy">View Full Policy</a><br>
+                <strong>Website:</strong> <a href="https://www.edudashpro.org.za">www.edudashpro.org.za</a>
+            </p>
+            <p style="margin-top: 16px;">© 2025 EduDash Pro (Pty) Ltd. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        let requestData = {};
+
+        document.getElementById('deletionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate at least one deletion type is selected
+            const checkboxes = document.querySelectorAll('input[name="deletionType"]:checked');
+            if (checkboxes.length === 0) {
+                showError('Please select at least one type of data to delete.');
+                return;
+            }
+
+            // Validate consent
+            if (!document.getElementById('consent').checked) {
+                showError('You must read and consent to the deletion process.');
+                return;
+            }
+
+            // Collect form data
+            const formData = new FormData(this);
+            const deletionTypes = [];
+            checkboxes.forEach(cb => deletionTypes.push(cb.value));
+
+            requestData = {
+                fullName: formData.get('fullName'),
+                email: formData.get('email'),
+                role: formData.get('role'),
+                preschool: formData.get('preschool') || 'Not provided',
+                deletionTypes: deletionTypes,
+                reason: formData.get('reason') || 'Not provided',
+                timestamp: new Date().toISOString(),
+                requestId: generateRequestId()
+            };
+
+            // Send email (mailto fallback)
+            sendDeletionRequest();
+            
+            // Show success message
+            showSuccess();
+        });
+
+        function sendDeletionRequest() {
+            const subject = encodeURIComponent(`Data Deletion Request - ${requestData.requestId}`);
+            const body = encodeURIComponent(
+                `Data Deletion Request\n\n` +
+                `Request ID: ${requestData.requestId}\n` +
+                `Timestamp: ${requestData.timestamp}\n\n` +
+                `User Information:\n` +
+                `- Name: ${requestData.fullName}\n` +
+                `- Email: ${requestData.email}\n` +
+                `- Role: ${requestData.role}\n` +
+                `- Preschool: ${requestData.preschool}\n\n` +
+                `Deletion Requested For:\n` +
+                `${requestData.deletionTypes.map(type => `- ${type.replace(/_/g, ' ')}`).join('\n')}\n\n` +
+                `Reason:\n${requestData.reason}\n\n` +
+                `---\n` +
+                `JSON Format (for processing):\n` +
+                JSON.stringify(requestData, null, 2)
+            );
+
+            const mailtoLink = `mailto:privacy@edudashpro.org.za?subject=${subject}&body=${body}`;
+            window.location.href = mailtoLink;
+
+            // Note: In production, you would POST this to an API endpoint
+            // Example:
+            // fetch('https://api.edudashpro.org.za/privacy/deletion-request', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify(requestData)
+            // });
+        }
+
+        function showSuccess() {
+            document.getElementById('deletionForm').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('submittedEmail').textContent = requestData.email;
+            document.getElementById('jsonOutput').textContent = JSON.stringify(requestData, null, 2);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = '❌ ' + message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function generateRequestId() {
+            return 'DEL-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+        }
+
+        function copyJSON() {
+            const jsonText = JSON.stringify(requestData, null, 2);
+            navigator.clipboard.writeText(jsonText).then(() => {
+                alert('✅ Request details copied to clipboard!');
+            }).catch(() => {
+                alert('❌ Failed to copy. Please select and copy manually.');
+            });
+        }
+
+        function downloadJSON() {
+            const jsonText = JSON.stringify(requestData, null, 2);
+            const blob = new Blob([jsonText], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `edudash-deletion-request-${requestData.requestId}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Handle "Full Account" checkbox - show additional warning
+        document.getElementById('fullAccount').addEventListener('change', function() {
+            if (this.checked) {
+                if (!confirm('⚠️ WARNING: Full account deletion will permanently remove all your data and you will lose access to EduDash Pro. Are you sure?')) {
+                    this.checked = false;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native
+android/
+ios/
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
+.DS_Store
+*.pem
+
+# local env files
+.env*.local
+
+# typescript
+*.tsbuildinfo
+
+# Ignore local supabase artifacts (track functions & migrations)
+# Do not ignore the supabase directory; only ignore local generated state inside it if present
+# If you have any local-only files, add them below explicitly.
+.env.migration
+
+# Development and debugging artifacts
+debug/
+temp/
+archive/
+artifacts/
+tools/
+
+# Test artifacts that aren't part of core tests
+tests/temp/
+tests/artifacts/
+
+# SQL development files
+sql/temp/
+sql/debug/
+
+# Local-only Supabase migrations (dev/test seeds)
+supabase/local_migrations/
+
+# Script artifacts and logs
+scripts/logs/
+scripts/temp/
+
+# Large binaries and build artifacts
+*.apk
+*.aab
+build-*.apk
+*.jks
+*.keystore
+
+# Logs and temporary files
+*.log
+*.pid
+*.tmp
+database-*.json
+expo_logs.txt
+.device.log
+.trigger
+
+# Policy and configuration artifacts
+policy_manifest*.yaml
+.sqlfluff
+.pre-commit-config.yaml
+
+# Personal/history folders accidentally committed
+memory_cleanup_*/
+backups/
+migration_backup_*/
+
+# Environment files - CRITICAL SECURITY
+# Never commit actual environment files with secrets
+.env
+.env.local
+.env.migration
+.env.temp
+.env.production
+.env.staging
+
+# Firebase configuration files with API keys
+google-services.json
+android/app/google-services.json
+ios/GoogleService-Info.plist
+
+# Service account keys and certificates
+*.json
+!package*.json
+!tsconfig*.json
+!app.json
+!eas.json
+!expo.json
+!jest.config.json
+!tailwind.config.json
+!metro.config.json
+
+# API keys and secrets
+**/credentials.json
+**/*secret*
+**/*key*.json
+**/*service-account*.json
+
+# Test files that might contain hardcoded secrets
+test-*.js
+check-*.js
+create-*.js
+debug-*.js
+debug-*.ts
+test-*.ts
+scripts/test-*
+scripts/debug-*
+scripts/check-*
+scripts/create-*
+
+# Authentication and recovery utilities
+utils/authRecovery.ts
+
+# Development images and screenshots
+.*.png
+*.screenshot.png
+
+# Editor temporary files and backup artifacts
+*.swp
+*.swo
+*~
+*.bak
+*.old
+*.orig
+*.rej
+*.tmp
+Thumbs.db
+.vscode/
+.idea/
+*.code-workspace
+# Merge conflict artifacts
+*_BASE_*
+*_LOCAL_*
+*_REMOTE_*
+*.backup
+
+.vercel
+google-services.json
+docs/*
+docs/edudashpro-firebase-adminsdk-fbsvc-bdcbc9a33a.json
+docs/edudashpro-firebase-adminsdk-fbsvc-bdcbc9a33a.json
+docs/edudashpro-credentials.json
+docs/edudashpro-credentials.json
+docs/edudashpro-credentials-backup.json
+docs/edudashpro-credentials-backup.json
+docs/edudashpro-firestore-backup/
+docs/edudashpro-firestore-backup/* 
+
+
+CAPS/
+CAPS

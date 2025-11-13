@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Storage Upload</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <h1>Test Dash Image Storage Upload</h1>
+    
+    <div>
+        <h3>Step 1: Login</h3>
+        <input type="email" id="email" placeholder="Email" value="">
+        <input type="password" id="password" placeholder="Password" value="">
+        <button onclick="login()">Login</button>
+        <div id="authStatus"></div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <h3>Step 2: Upload Image</h3>
+        <input type="file" id="fileInput" accept="image/*">
+        <button onclick="uploadToAttachments()">Upload to dash-attachments</button>
+        <button onclick="uploadToChatImages()">Upload to dash-chat-images</button>
+        <div id="uploadStatus"></div>
+    </div>
+
+    <script>
+        const supabase = supabase.createClient(
+            'https://lvvvjywrmpcqrpvuptdi.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx2dnZqeXdybXBjcXJwdnVwdGRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjY1NzY5MjQsImV4cCI6MjA0MjE1MjkyNH0.L1Nq72WBIXqLRbR8eOqB8F4lmhXPZ0H-o7HdWRkr-AA'
+        );
+
+        async function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email,
+                    password
+                });
+                
+                if (error) throw error;
+                
+                document.getElementById('authStatus').innerHTML = 
+                    `<div style="color: green;">✅ Logged in as: ${data.user.email}<br>User ID: ${data.user.id}</div>`;
+                
+            } catch (error) {
+                document.getElementById('authStatus').innerHTML = 
+                    `<div style="color: red;">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        async function uploadToAttachments() {
+            await uploadFile('dash-attachments');
+        }
+
+        async function uploadToChatImages() {
+            await uploadFile('dash-chat-images');
+        }
+
+        async function uploadFile(bucketName) {
+            const fileInput = document.getElementById('fileInput');
+            if (!fileInput.files.length) {
+                alert('Please select a file first');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const { data: { user } } = await supabase.auth.getUser();
+            
+            if (!user) {
+                document.getElementById('uploadStatus').innerHTML = 
+                    '<div style="color: red;">❌ Please login first</div>';
+                return;
+            }
+
+            const fileName = `${user.id}/${Date.now()}_${file.name}`;
+            
+            document.getElementById('uploadStatus').innerHTML = 
+                `<div style="color: blue;">⏳ Uploading to ${bucketName}/${fileName}...</div>`;
+
+            try {
+                const { data, error } = await supabase.storage
+                    .from(bucketName)
+                    .upload(fileName, file, {
+                        contentType: file.type,
+                        upsert: false
+                    });
+
+                if (error) throw error;
+
+                const { data: { publicUrl } } = supabase.storage
+                    .from(bucketName)
+                    .getPublicUrl(fileName);
+
+                document.getElementById('uploadStatus').innerHTML = 
+                    `<div style="color: green;">
+                        ✅ Upload successful!<br>
+                        Path: ${data.path}<br>
+                        <a href="${publicUrl}" target="_blank">View Image</a>
+                    </div>`;
+
+            } catch (error) {
+                document.getElementById('uploadStatus').innerHTML = 
+                    `<div style="color: red;">❌ Upload failed: ${error.message}</div>`;
+                console.error('Upload error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

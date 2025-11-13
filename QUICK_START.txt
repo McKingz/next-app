@@ -1,0 +1,141 @@
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                    DASH AI + EXAM PAPERS                        ┃
+┃                         QUICK START                             ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+✅ WHAT'S WORKING NOW:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✓ Dash AI: Claude Sonnet 3.7 deployed and responding
+✓ TTS: 6 South African languages (en, af, zu, xh, nso)
+✓ Database: exam_papers table with 8 official papers registered
+✓ Search: Full-text search function ready
+
+⏳ NEXT STEPS (IN ORDER):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Download official papers from DBE website
+2. Add tool calling to ai-proxy-simple edge function
+3. Test Dash AI exam paper search end-to-end
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ STEP 1: DOWNLOAD OFFICIAL PAPERS                                ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+📍 Website: https://www.education.gov.za/
+   → Curriculum
+   → NSC Examinations
+   → Past Examination Papers
+
+📁 Download these for 2024, 2023, 2022:
+
+MATHEMATICS
+  ├── Mathematics_P1_Nov{Year}_Eng.pdf
+  ├── Mathematics_P1_Nov{Year}_Memo.pdf
+  ├── Mathematics_P2_Nov{Year}_Eng.pdf
+  └── Mathematics_P2_Nov{Year}_Memo.pdf
+
+LIFE SCIENCES
+  ├── LifeSciences_P1_Nov{Year}_Eng.pdf
+  ├── LifeSciences_P1_Nov{Year}_Memo.pdf
+  ├── LifeSciences_P2_Nov{Year}_Eng.pdf
+  └── LifeSciences_P2_Nov{Year}_Memo.pdf
+
+ENGLISH HOME LANGUAGE
+  ├── English_HL_P1_Nov{Year}.pdf
+  ├── English_HL_P1_Nov{Year}_Memo.pdf
+  ├── English_HL_P2_Nov{Year}.pdf
+  └── English_HL_P2_Nov{Year}_Memo.pdf
+
+AFRIKAANS HUISTAAL
+  ├── Afrikaans_HT_V1_Nov{Year}.pdf
+  ├── Afrikaans_HT_V1_Nov{Year}_Memo.pdf
+  ├── Afrikaans_HT_V2_Nov{Year}.pdf
+  └── Afrikaans_HT_V2_Nov{Year}_Memo.pdf
+
+💾 Save to: exam-papers-official/{year}/{subject}/
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ STEP 2: ENABLE DASH AI TOOL CALLING                             ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+📝 Edit: supabase/functions/ai-proxy-simple/index.ts
+
+Add tool definition in Claude API call:
+
+  tools: [{
+    name: 'search_exam_papers',
+    description: 'Search for past exam papers',
+    input_schema: {
+      type: 'object',
+      properties: {
+        query: { type: 'string' },
+        subject: { type: 'string' },
+        grade: { type: 'string' },
+        year: { type: 'integer' }
+      }
+    }
+  }]
+
+Handle tool use responses from Claude to call Supabase RPC.
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ STEP 3: TEST END-TO-END                                          ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+Try these test queries:
+
+  💬 "Find me Grade 12 Math papers from 2024"
+  💬 "I need help with photosynthesis, show me past papers"
+  💬 "What English comprehension papers are available?"
+  💬 "Wys vir my Afrikaans vraestelle"
+
+Expected: Dash AI searches database and returns relevant papers.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📚 DOCUMENTATION:
+
+  → CONTINUE_FROM_HERE.md                    (This overview)
+  → OFFICIAL_EXAM_PAPERS_DOWNLOAD_GUIDE.md  (Step 1 details)
+  → EXAM_PAPERS_DATABASE_SETUP.md           (Database info)
+  → DASH_AI_INTEGRATION_STATUS.md           (Full tech docs)
+  → DASH_AI_SETUP_COMPLETE.md               (AI setup summary)
+
+🔧 HELPER SCRIPTS:
+
+  → scripts/download-official-exam-papers.sh  (Download helper)
+  → scripts/process-exam-papers.js            (Generate SQL)
+
+🗄️ DATABASE:
+
+  Host: aws-0-ap-southeast-1.pooler.supabase.com
+  Port: 6543
+  User: postgres.lvvvjywrmpcqrpvuptdi
+  DB:   postgres
+
+  Quick test:
+  SELECT * FROM search_exam_papers('calculus', NULL, NULL, NULL);
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 STATUS SUMMARY:
+
+  Dash AI Model:        ✅ Claude Sonnet 3.7
+  Edge Function:        ✅ ai-proxy-simple deployed
+  TTS Languages:        ✅ 6 languages verified
+  Database Schema:      ✅ Applied
+  Paper Metadata:       ✅ 8 papers registered
+  Official PDFs:        ⏳ Manual download needed
+  Tool Calling:         ⏳ Code changes needed
+  End-to-End Testing:   ⏳ Pending steps 1-2
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📞 SUPPORT:
+
+  DBE Papers:    0800 202 933 | callcentre@dbe.gov.za
+  Supabase:      Check dashboard for logs
+  Claude API:    Check Anthropic console
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Last Updated: November 2, 2025
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

@@ -1,0 +1,129 @@
+/* Enhanced close button styles for exam modal - Mobile friendly */
+.quizContent .close-button,
+.exam-modal .close-button,
+.ExamInteractiveView .close-button {
+  position: sticky;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  
+  /* Larger touch target for mobile */
+  min-width: 44px;
+  min-height: 44px;
+  width: 44px;
+  height: 44px;
+  
+  /* More accessible styling */
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  padding: 8px;
+  margin: 8px;
+  
+  /* Positioning */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Visual improvements */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  
+  /* Touch feedback for mobile */
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quizContent .close-button:hover,
+.exam-modal .close-button:hover,
+.ExamInteractiveView .close-button:hover {
+  background: rgba(241, 245, 249, 0.95);
+  transform: scale(1.05);
+}
+
+/* Loading state close button */
+.quizContent .close-button.loading,
+.exam-modal .close-button.loading,
+.ExamInteractiveView .close-button.loading {
+  background: rgba(239, 68, 68, 0.9);
+  border-color: rgba(220, 38, 38, 0.5);
+}
+
+.quizContent .close-button.loading:hover,
+.exam-modal .close-button.loading:hover,
+.ExamInteractiveView .close-button.loading:hover {
+  background: rgba(220, 38, 38, 0.95);
+}
+
+/* Specific mobile improvements */
+@media (max-width: 768px) {
+  .quizContent .close-button,
+  .exam-modal .close-button,
+  .ExamInteractiveView .close-button {
+    min-width: 48px;
+    min-height: 48px;
+    width: 48px;
+    height: 48px;
+    
+    /* Make it more prominent on small screens */
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Make sure the close button is visible in mobile viewports */
+  .iconBtn {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+  }
+  
+  /* Make header taller on mobile to accommodate larger buttons */
+  .topbar {
+    min-height: 64px;
+  }
+  
+  /* Loading overlay styling for mobile */
+  .loading-overlay {
+    padding: 24px;
+    max-width: 90vw;
+    max-height: 70vh;
+    overflow-y: auto;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .quizContent .close-button,
+  .exam-modal .close-button,
+  .ExamInteractiveView .close-button {
+    background: rgba(30, 41, 59, 0.9);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .quizContent .close-button:hover,
+  .exam-modal .close-button:hover,
+  .ExamInteractiveView .close-button:hover {
+    background: rgba(51, 65, 85, 0.95);
+  }
+  
+  /* Dark mode for iconBtn */
+  .iconBtn {
+    background: rgba(30, 41, 59, 0.9);
+  }
+  
+  /* Dark mode loading overlay */
+  .loading-overlay {
+    background: var(--surface) !important;
+  }
+}

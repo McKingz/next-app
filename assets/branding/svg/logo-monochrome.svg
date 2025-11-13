@@ -1,0 +1,33 @@
+<svg viewBox="0 0 1600 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Monochrome version uses currentColor so it can be recolored -->
+  <!-- Default color: #111827 (dark gray) -->
+  
+  <!-- Icon (left side) -->
+  <g transform="translate(32, 6)" fill="currentColor" stroke="currentColor">
+    <!-- Background frame -->
+    <rect x="0" y="0" width="500" height="500" rx="100" 
+          fill="none" stroke-width="16"/>
+    
+    <!-- Book base -->
+    <rect x="100" y="280" width="300" height="200" rx="8" opacity="0.15"/>
+    
+    <!-- Speech bubble (no shadow in monochrome) -->
+    <g>
+      <rect x="100" y="80" width="300" height="180" rx="24" fill="none" stroke-width="12"/>
+      <path d="M 360 260 Q 390 275, 410 305 L 360 260 Z" fill="none" stroke-width="12" stroke-linejoin="round"/>
+    </g>
+    
+    <!-- Three dots -->
+    <circle cx="180" cy="170" r="18"/>
+    <circle cx="250" cy="170" r="18"/>
+    <circle cx="320" cy="170" r="18"/>
+    
+    <!-- Bookmark ribbon -->
+    <rect x="232" y="340" width="46" height="130" rx="4"/>
+    <path d="M 232 470 L 255 445 L 278 470 Z"/>
+  </g>
+  
+  <!-- EDUDASH Wordmark (right side) -->
+  <text x="680" y="320" font-family="system-ui, -apple-system, sans-serif" 
+        font-size="180" font-weight="900" letter-spacing="-6" fill="currentColor">EDUDASH</text>
+</svg>

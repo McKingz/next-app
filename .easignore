@@ -1,0 +1,47 @@
+# Ignore large local artifacts and non-build files to reduce EAS upload size
+# Build outputs and APKs
+android/
+ios/
+build-*.apk
+artifacts/
+dist/
+
+# Local caches and Expo files
+.expo/
+.expo-shared/
+.expo-start.pid
+.expo/devices.json
+node_modules/.cache/
+
+# Local env and logs (EAS uses eas.json/env or EAS env store)
+.env.local
+.env.migration
+expo_logs.txt
+
+# Keystores, credentials (do not upload; EAS remote credentials are used)
+*.jks
+credentials.json
+@edudashpro__*.jks
+
+# Dev-only heavy reports and debug outputs (be specific to avoid excluding needed assets)
+database-*.json
+database-inspection-*.json
+database-sql-inspection-*.json
+memory_cleanup_*/
+
+# Supabase local temp and migration drafts (not needed for build)
+supabase/.temp/
+migrations_drafts/
+server-examples/
+
+# Scripts and local reports (optional to exclude)
+scripts/*.sh
+scripts/*.ts
+reports/
+
+# Keep assets (png/jpg) and config JSON files included for the app to bundle correctly
+# Do NOT add global patterns like *.png or *.json here.
+
+# VCS
+.git/
+.github/

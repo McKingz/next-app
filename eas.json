@@ -1,0 +1,102 @@
+{
+  "cli": {
+    "version": ">= 5.8.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "channel": "development",
+      "credentialsSource": "remote",
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://lvvvjywrmpcqrpvuptdi.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx2dnZqeXdybXBjcXJwdnVwdGRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwMzc4MzgsImV4cCI6MjA2ODYxMzgzOH0.mjXejyRHPzEJfMlhW46TlYI0qw9mtoSRJZhGsCkuvd8",
+        "EXPO_PUBLIC_TENANT_SLUG": "development",
+        "EXPO_PUBLIC_ENABLE_CONSOLE": "true",
+        "EXPO_PUBLIC_ENABLE_TEST_TOOLS": "1",
+        "EXPO_PUBLIC_ENABLE_OTA_UPDATES": "false",
+        "EXPO_PUBLIC_AI_STREAMING_ENABLED": "true",
+        "EXPO_PUBLIC_ENABLE_AI_STREAMING": "true"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "channel": "preview",
+      "credentialsSource": "remote",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://lvvvjywrmpcqrpvuptdi.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx2dnZqeXdybXBjcXJwdnVwdGRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwMzc4MzgsImV4cCI6MjA2ODYxMzgzOH0.mjXejyRHPzEJfMlhW46TlYI0qw9mtoSRJZhGsCkuvd8",
+        "EXPO_PUBLIC_TENANT_SLUG": "preview",
+        "EXPO_PUBLIC_API_BASE": "https://lvvvjywrmpcqrpvuptdi.supabase.co/functions/v1",
+        "EXPO_PUBLIC_WHATSAPP_API_ENABLED": "true",
+        "EXPO_PUBLIC_SCHOOL_WHATSAPP_NUMBER": "+27674770975",
+        "EXPO_PUBLIC_ADMOB_ANDROID_APP_ID": "ca-app-pub-2808416461095370~5255516826",
+        "EXPO_PUBLIC_ADMOB_IOS_APP_ID": "ca-app-pub-3940256099942544~1458002511",
+        "EXPO_PUBLIC_ENABLE_TEST_ADS": "true",
+        "EXPO_PUBLIC_ENABLE_ADS": "1",
+        "EXPO_PUBLIC_AI_ENABLED": "true",
+        "EXPO_PUBLIC_ENABLE_AI_FEATURES": "true",
+        "EXPO_PUBLIC_AI_LESSON_GENERATION_ENABLED": "true",
+        "EXPO_PUBLIC_AI_HOMEWORK_GRADING_ENABLED": "true",
+        "EXPO_PUBLIC_AI_HOMEWORK_HELP_ENABLED": "true",
+        "EXPO_PUBLIC_AI_STEM_ACTIVITIES_ENABLED": "true",
+        "EXPO_PUBLIC_AI_PROGRESS_ANALYSIS_ENABLED": "true",
+        "EXPO_PUBLIC_AI_INSIGHTS_ENABLED": "true",
+        "EXPO_PUBLIC_AI_STREAMING_ENABLED": "true",
+        "EXPO_PUBLIC_ANTHROPIC_MODEL": "claude-3-5-sonnet-20241022",
+        "EXPO_PUBLIC_ANTHROPIC_MAX_TOKENS": "8192",
+        "EXPO_PUBLIC_DASH_STREAMING": "true",
+        "EXPO_PUBLIC_ENABLE_WEBRTC_STREAMING": "false",
+        "EXPO_PUBLIC_ENABLE_HYBRID_TRANSCRIPTION": "true",
+        "EXPO_PUBLIC_ENABLE_ON_DEVICE_ASR": "true",
+        "EXPO_PUBLIC_ENABLE_CHUNKED_TRANSCRIPTION": "true",
+        "EXPO_PUBLIC_CHUNK_DURATION_MS": "1000",
+        "EXPO_PUBLIC_VOICE_MODAL_STYLE": "modern",
+        "EXPO_PUBLIC_APP_SCHEME": "edudashpro",
+        "EXPO_PUBLIC_APP_NAME": "EduDash Pro",
+        "EXPO_PUBLIC_DEFAULT_CURRENCY": "ZAR",
+        "EXPO_PUBLIC_DEFAULT_LOCALE": "en-ZA",
+        "EXPO_PUBLIC_DEFAULT_TIMEZONE": "Africa/Johannesburg",
+        "EXPO_PUBLIC_ENABLE_STEM_ACTIVITIES": "true",
+        "EXPO_PUBLIC_ENABLE_HOMEWORK_GRADING": "true",
+        "EXPO_PUBLIC_ENABLE_LESSON_GENERATOR": "true",
+        "EXPO_PUBLIC_ENABLE_PROGRESS_ANALYSIS": "true",
+        "EXPO_PUBLIC_ENABLE_PREMIUM_FEATURES": "true",
+        "EXPO_PUBLIC_ENABLE_PUSH_NOTIFICATIONS": "true",
+        "EXPO_PUBLIC_ENABLE_OFFLINE_MODE": "true",
+        "EXPO_PUBLIC_ENABLE_TEST_TOOLS": "true",
+        "EXPO_PUBLIC_ENABLE_CONSOLE": "true",
+        "EXPO_PUBLIC_DEBUG_MODE": "false"
+      }
+    },
+    "production": {
+      "channel": "production",
+      "credentialsSource": "remote",
+      "env": {
+        "NODE_ENV": "production",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://lvvvjywrmpcqrpvuptdi.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx2dnZqeXdybXBjcXJwdnVwdGRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwMzc4MzgsImV4cCI6MjA2ODYxMzgzOH0.mjXejyRHPzEJfMlhW46TlYI0qw9mtoSRJZhGsCkuvd8",
+        "EXPO_PUBLIC_TENANT_SLUG": "production",
+        "EXPO_PUBLIC_ENABLE_CONSOLE": "false",
+        "EXPO_PUBLIC_ENABLE_ADS": "1",
+        "EXPO_PUBLIC_ENABLE_TEST_ADS": "false",
+        "EXPO_PUBLIC_ENABLE_MOCK_ADS": "false",
+        "EXPO_PUBLIC_ENABLE_OTA_UPDATES": "true",
+        "EXPO_PUBLIC_ENABLE_PUSH_NOTIFICATIONS": "true",
+        "EXPO_PUBLIC_ADMOB_ANDROID_APP_ID": "ca-app-pub-2808416461095370~5255516826",
+        "EXPO_PUBLIC_ADMOB_IOS_APP_ID": "ca-app-pub-3940256099942544~1458002511"
+      }
+    },
+    "production-apk": {
+      "extends": "production",
+      "android": { "buildType": "apk" }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

@@ -1,0 +1,66 @@
+<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!-- Gradients -->
+  <defs>
+    <!-- Primary gradient for frame -->
+    <linearGradient id="frameGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#33C3D4;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1E6FBF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7B3FF2;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Bookmark accent gradient -->
+    <linearGradient id="bookmarkGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF4D8F;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FF8C5F;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFD54D;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Soft shadow filter -->
+    <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.15"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background frame (rounded square with gradient stroke) -->
+  <rect x="123" y="123" width="778" height="778" rx="160" 
+        fill="none" stroke="url(#frameGradient)" stroke-width="24"/>
+  
+  <!-- Book base (subtle foundation) -->
+  <rect x="280" y="520" width="464" height="360" rx="12" 
+        fill="url(#frameGradient)" opacity="0.12"/>
+  
+  <!-- Speech bubble (white with soft shadow) -->
+  <g filter="url(#softShadow)">
+    <!-- Main bubble body -->
+    <rect x="280" y="220" width="464" height="280" rx="36" 
+          fill="#FFFFFF"/>
+    
+    <!-- Speech bubble tail (lower right) -->
+    <path d="M 680 500 Q 720 520, 744 560 L 680 500 Z" 
+          fill="#FFFFFF"/>
+  </g>
+  
+  <!-- Three dots (conversation indicator) -->
+  <circle cx="420" cy="360" r="28" fill="#6B7280"/>
+  <circle cx="512" cy="360" r="28" fill="#6B7280"/>
+  <circle cx="604" cy="360" r="28" fill="#6B7280"/>
+  
+  <!-- Bookmark ribbon (centered at bottom) -->
+  <g>
+    <!-- Ribbon body -->
+    <rect x="476" y="620" width="72" height="200" rx="6" 
+          fill="url(#bookmarkGradient)"/>
+    
+    <!-- Ribbon notch (V-shape at bottom) -->
+    <path d="M 476 820 L 512 780 L 548 820 L 548 820 L 476 820 Z" 
+          fill="url(#bookmarkGradient)"/>
+  </g>
+</svg>

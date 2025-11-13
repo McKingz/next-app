@@ -1,0 +1,53 @@
+{
+  "name": "web",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": "20.x",
+    "npm": ">=9.0.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "prebuild": "node scripts/bump-sw-version.mjs",
+    "build": "next build",
+    "postbuild": "node scripts/notify-deployment.js || true",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "pre-push": "./scripts/pre-push-check.sh"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.7.0",
+    "@supabase/supabase-js": "^2.76.1",
+    "@tanstack/react-query": "^5.90.6",
+    "date-fns": "^4.1.0",
+    "framer-motion": "^12.23.24",
+    "jspdf": "^3.0.3",
+    "jspdf-autotable": "^5.0.2",
+    "lucide-react": "^0.548.0",
+    "mermaid": "^11.12.1",
+    "next": "^16.0.0",
+    "next-pwa": "^5.6.0",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "react-katex": "^3.1.0",
+    "react-markdown": "^10.1.0",
+    "react-svg-pan-zoom": "^3.13.1",
+    "recharts": "^3.3.0",
+    "remark-gfm": "^4.0.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.16",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/react-katex": "^3.0.4",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.16",
+    "typescript": "^5",
+    "web-push": "^3.6.7"
+  }
+}

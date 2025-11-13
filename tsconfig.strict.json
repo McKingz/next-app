@@ -1,0 +1,33 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "exactOptionalPropertyTypes": true,
+    "useUnknownInCatchVariables": true,
+    "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
+  "include": [
+    "lib/security/**/*",
+    "lib/logger.ts",
+    "lib/debug.ts",
+    "lib/perf.ts",
+    "lib/global-errors.ts",
+    "hooks/**/*"
+  ],
+  "exclude": [
+    "scripts/**/*",
+    "docs/**/*",
+    "temp/**/*",
+    "archive/**/*",
+    "test-*",
+    "**/*.test.*",
+    "**/*.spec.*"
+  ]
+}

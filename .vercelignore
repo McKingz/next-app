@@ -1,0 +1,67 @@
+# Vercel Ignore - Only upload source code needed for build
+# Build artifacts and large directories that aren't needed
+
+# Dependencies (Vercel installs from package.json)
+node_modules/
+
+# Build artifacts
+builds/
+dist/
+android/
+ios/
+.expo/
+web-build/
+
+# Development and debugging
+debug/
+temp/
+archive/
+artifacts/
+tools/
+backups/
+
+# Documentation (not needed for build)
+docs/
+
+# Tests (not needed for production build)
+tests/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# Large assets
+splash-icon.png
+*.apk
+*.aab
+*.ipa
+
+# Git
+.git/
+.github/
+
+# Logs
+*.log
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Vercel cache
+.vercel/
+
+# SQL and scripts artifacts
+sql/temp/
+sql/debug/
+scripts/logs/
+scripts/temp/

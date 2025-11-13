@@ -1,0 +1,418 @@
+-- ============================================================================
+-- OAuth Tokens and SMS Integration Schema
+-- ============================================================================
+-- Description: Database schema for third-party integrations (Google Calendar, SMS)
+-- Dependencies: preschools, auth.users
+-- ============================================================================
+
+-- ============================================================================
+-- 1. OAuth Tokens Table
+-- ============================================================================
+-- Stores OAuth access/refresh tokens for third-party integrations
+-- Supports: Google Calendar, Microsoft Teams, etc.
+
+CREATE TABLE IF NOT EXISTS oauth_tokens (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  preschool_id UUID NOT NULL REFERENCES preschools(id) ON DELETE CASCADE,
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  provider TEXT NOT NULL CHECK (provider IN ('google', 'microsoft', 'stripe')),
+  access_token TEXT NOT NULL,
+  refresh_token TEXT,
+  token_type TEXT DEFAULT 'Bearer',
+  expires_at TIMESTAMPTZ NOT NULL,
+  scopes TEXT[] NOT NULL DEFAULT '{}',
+  
+  -- Metadata
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  last_used_at TIMESTAMPTZ,
+  
+  -- Constraints
+  UNIQUE(user_id, provider)
+);
+
+-- Indexes for oauth_tokens
+CREATE INDEX idx_oauth_tokens_user_provider ON oauth_tokens(user_id, provider);
+CREATE INDEX idx_oauth_tokens_preschool ON oauth_tokens(preschool_id);
+CREATE INDEX idx_oauth_tokens_expires_at ON oauth_tokens(expires_at);
+
+-- Updated_at trigger for oauth_tokens
+CREATE TRIGGER set_oauth_tokens_updated_at
+  BEFORE UPDATE ON oauth_tokens
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at_column();
+
+-- ============================================================================
+-- 2. SMS Messages Table
+-- ============================================================================
+-- Tracks all SMS messages sent via Twilio/ClickSend
+
+CREATE TABLE IF NOT EXISTS sms_messages (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  preschool_id UUID NOT NULL REFERENCES preschools(id) ON DELETE CASCADE,
+  
+  -- Message details
+  from_number TEXT NOT NULL,
+  to_number TEXT NOT NULL,
+  body TEXT NOT NULL,
+  
+  -- Status tracking
+  status TEXT NOT NULL DEFAULT 'queued' CHECK (status IN (
+    'queued', 'sending', 'sent', 'delivered', 'failed', 'undelivered'
+  )),
+  error_code TEXT,
+  error_message TEXT,
+  
+  -- Provider details
+  provider TEXT NOT NULL DEFAULT 'twilio' CHECK (provider IN ('twilio', 'clicksend')),
+  provider_message_id TEXT, -- Twilio SID or ClickSend message_id
+  
+  -- Metadata
+  sent_by_user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  sent_at TIMESTAMPTZ,
+  delivered_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  
+  -- Cost tracking
+  segments INTEGER DEFAULT 1, -- Number of SMS segments (160 chars each)
+  cost_per_segment NUMERIC(10, 4), -- Cost in local currency
+  total_cost NUMERIC(10, 4) GENERATED ALWAYS AS (segments * COALESCE(cost_per_segment, 0)) STORED
+);
+
+-- Indexes for sms_messages
+CREATE INDEX idx_sms_messages_preschool ON sms_messages(preschool_id);
+CREATE INDEX idx_sms_messages_status ON sms_messages(status);
+CREATE INDEX idx_sms_messages_provider_id ON sms_messages(provider_message_id);
+CREATE INDEX idx_sms_messages_to_number ON sms_messages(to_number);
+CREATE INDEX idx_sms_messages_created_at ON sms_messages(created_at DESC);
+
+-- ============================================================================
+-- 3. SMS Opt-Outs Table
+-- ============================================================================
+-- Tracks parents who opted out of SMS notifications
+
+CREATE TABLE IF NOT EXISTS sms_opt_outs (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  preschool_id UUID NOT NULL REFERENCES preschools(id) ON DELETE CASCADE,
+  phone_number TEXT NOT NULL,
+  
+  -- Opt-out details
+  opted_out_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  opt_out_method TEXT CHECK (opt_out_method IN ('sms_reply', 'app_settings', 'admin')),
+  
+  -- Allow opt-in again
+  opted_in_at TIMESTAMPTZ,
+  
+  -- Metadata
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  
+  -- Constraints
+  UNIQUE(preschool_id, phone_number)
+);
+
+-- Indexes for sms_opt_outs
+CREATE INDEX idx_sms_opt_outs_preschool_phone ON sms_opt_outs(preschool_id, phone_number);
+CREATE INDEX idx_sms_opt_outs_active ON sms_opt_outs(preschool_id) WHERE opted_in_at IS NULL;
+
+-- Updated_at trigger for sms_opt_outs
+CREATE TRIGGER set_sms_opt_outs_updated_at
+  BEFORE UPDATE ON sms_opt_outs
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at_column();
+
+-- ============================================================================
+-- 4. Calendar Events Integration Table
+-- ============================================================================
+-- Maps EduDash events to external calendar systems (Google Calendar, Outlook)
+
+CREATE TABLE IF NOT EXISTS calendar_event_mappings (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  preschool_id UUID NOT NULL REFERENCES preschools(id) ON DELETE CASCADE,
+  
+  -- EduDash event reference (if exists)
+  internal_event_id UUID, -- Could reference preschool_events or other event tables
+  
+  -- External calendar details
+  provider TEXT NOT NULL CHECK (provider IN ('google', 'microsoft')),
+  external_event_id TEXT NOT NULL, -- Google Calendar event ID or Outlook event ID
+  external_calendar_id TEXT, -- Calendar ID (for multi-calendar users)
+  
+  -- Sync metadata
+  created_by_user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  last_synced_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  sync_direction TEXT NOT NULL DEFAULT 'bidirectional' CHECK (
+    sync_direction IN ('to_external', 'from_external', 'bidirectional')
+  ),
+  
+  -- Metadata
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  
+  -- Constraints
+  UNIQUE(provider, external_event_id)
+);
+
+-- Indexes for calendar_event_mappings
+CREATE INDEX idx_calendar_mappings_preschool ON calendar_event_mappings(preschool_id);
+CREATE INDEX idx_calendar_mappings_internal_event ON calendar_event_mappings(internal_event_id);
+CREATE INDEX idx_calendar_mappings_provider_external ON calendar_event_mappings(provider, external_event_id);
+
+-- Updated_at trigger for calendar_event_mappings
+CREATE TRIGGER set_calendar_event_mappings_updated_at
+  BEFORE UPDATE ON calendar_event_mappings
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at_column();
+
+-- ============================================================================
+-- 5. Integration Audit Log
+-- ============================================================================
+-- Tracks all third-party API calls for debugging and compliance
+
+CREATE TABLE IF NOT EXISTS integration_audit_log (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  preschool_id UUID NOT NULL REFERENCES preschools(id) ON DELETE CASCADE,
+  
+  -- Integration details
+  integration_type TEXT NOT NULL CHECK (integration_type IN (
+    'google_calendar', 'microsoft_teams', 'twilio_sms', 'stripe_payment'
+  )),
+  action TEXT NOT NULL, -- 'create_event', 'send_sms', 'process_payment'
+  
+  -- Request/Response
+  request_payload JSONB,
+  response_payload JSONB,
+  status_code INTEGER,
+  
+  -- User context
+  user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  user_role TEXT,
+  
+  -- Timing
+  started_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  completed_at TIMESTAMPTZ,
+  duration_ms INTEGER GENERATED ALWAYS AS (
+    EXTRACT(EPOCH FROM (completed_at - started_at)) * 1000
+  ) STORED,
+  
+  -- Error tracking
+  error_message TEXT,
+  error_code TEXT,
+  
+  -- Metadata
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Indexes for integration_audit_log
+CREATE INDEX idx_integration_audit_preschool ON integration_audit_log(preschool_id);
+CREATE INDEX idx_integration_audit_type_action ON integration_audit_log(integration_type, action);
+CREATE INDEX idx_integration_audit_created_at ON integration_audit_log(created_at DESC);
+CREATE INDEX idx_integration_audit_user ON integration_audit_log(user_id);
+
+-- ============================================================================
+-- 6. Row-Level Security Policies
+-- ============================================================================
+
+-- Enable RLS on all tables
+ALTER TABLE oauth_tokens ENABLE ROW LEVEL SECURITY;
+ALTER TABLE sms_messages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE sms_opt_outs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE calendar_event_mappings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE integration_audit_log ENABLE ROW LEVEL SECURITY;
+
+-- ============================================================================
+-- 6.1 OAuth Tokens Policies
+-- ============================================================================
+
+-- Users can only read their own tokens
+CREATE POLICY oauth_tokens_select_own ON oauth_tokens
+  FOR SELECT
+  USING (auth.uid() = user_id);
+
+-- Service role can manage all tokens (for Edge Functions)
+CREATE POLICY oauth_tokens_service_role_all ON oauth_tokens
+  FOR ALL
+  USING (auth.jwt()->>'role' = 'service_role');
+
+-- Users can insert their own tokens (during OAuth flow)
+CREATE POLICY oauth_tokens_insert_own ON oauth_tokens
+  FOR INSERT
+  WITH CHECK (auth.uid() = user_id);
+
+-- Users can update their own tokens (token refresh)
+CREATE POLICY oauth_tokens_update_own ON oauth_tokens
+  FOR UPDATE
+  USING (auth.uid() = user_id);
+
+-- Users can delete their own tokens (disconnect integration)
+CREATE POLICY oauth_tokens_delete_own ON oauth_tokens
+  FOR DELETE
+  USING (auth.uid() = user_id);
+
+-- ============================================================================
+-- 6.2 SMS Messages Policies
+-- ============================================================================
+
+-- Users can read SMS for their preschool
+CREATE POLICY sms_messages_select_preschool ON sms_messages
+  FOR SELECT
+  USING (
+    preschool_id IN (
+      SELECT preschool_id FROM user_roles WHERE user_id = auth.uid()
+    )
+  );
+
+-- Service role can manage all SMS (for Edge Functions)
+CREATE POLICY sms_messages_service_role_all ON sms_messages
+  FOR ALL
+  USING (auth.jwt()->>'role' = 'service_role');
+
+-- Principals and teachers can send SMS
+CREATE POLICY sms_messages_insert_staff ON sms_messages
+  FOR INSERT
+  WITH CHECK (
+    preschool_id IN (
+      SELECT ur.preschool_id FROM user_roles ur
+      WHERE ur.user_id = auth.uid() 
+        AND ur.role IN ('principal', 'teacher', 'superadmin')
+    )
+  );
+
+-- ============================================================================
+-- 6.3 SMS Opt-Outs Policies
+-- ============================================================================
+
+-- Users can read opt-outs for their preschool
+CREATE POLICY sms_opt_outs_select_preschool ON sms_opt_outs
+  FOR SELECT
+  USING (
+    preschool_id IN (
+      SELECT preschool_id FROM user_roles WHERE user_id = auth.uid()
+    )
+  );
+
+-- Service role can manage all opt-outs (for webhook processing)
+CREATE POLICY sms_opt_outs_service_role_all ON sms_opt_outs
+  FOR ALL
+  USING (auth.jwt()->>'role' = 'service_role');
+
+-- Staff can insert opt-outs (manual opt-out from app)
+CREATE POLICY sms_opt_outs_insert_staff ON sms_opt_outs
+  FOR INSERT
+  WITH CHECK (
+    preschool_id IN (
+      SELECT ur.preschool_id FROM user_roles ur
+      WHERE ur.user_id = auth.uid() 
+        AND ur.role IN ('principal', 'teacher', 'superadmin')
+    )
+  );
+
+-- ============================================================================
+-- 6.4 Calendar Event Mappings Policies
+-- ============================================================================
+
+-- Users can read mappings for their preschool
+CREATE POLICY calendar_mappings_select_preschool ON calendar_event_mappings
+  FOR SELECT
+  USING (
+    preschool_id IN (
+      SELECT preschool_id FROM user_roles WHERE user_id = auth.uid()
+    )
+  );
+
+-- Service role can manage all mappings
+CREATE POLICY calendar_mappings_service_role_all ON calendar_event_mappings
+  FOR ALL
+  USING (auth.jwt()->>'role' = 'service_role');
+
+-- Users can create mappings for their preschool
+CREATE POLICY calendar_mappings_insert_preschool ON calendar_event_mappings
+  FOR INSERT
+  WITH CHECK (
+    preschool_id IN (
+      SELECT preschool_id FROM user_roles WHERE user_id = auth.uid()
+    )
+  );
+
+-- ============================================================================
+-- 6.5 Integration Audit Log Policies
+-- ============================================================================
+
+-- Superadmins and principals can read audit logs for their preschool
+CREATE POLICY integration_audit_select_admin ON integration_audit_log
+  FOR SELECT
+  USING (
+    preschool_id IN (
+      SELECT ur.preschool_id FROM user_roles ur
+      WHERE ur.user_id = auth.uid() 
+        AND ur.role IN ('principal', 'superadmin')
+    )
+  );
+
+-- Service role can manage all audit logs
+CREATE POLICY integration_audit_service_role_all ON integration_audit_log
+  FOR ALL
+  USING (auth.jwt()->>'role' = 'service_role');
+
+-- ============================================================================
+-- 7. Helper Functions
+-- ============================================================================
+
+-- Check if phone number has opted out
+CREATE OR REPLACE FUNCTION is_phone_opted_out(
+  p_preschool_id UUID,
+  p_phone_number TEXT
+)
+RETURNS BOOLEAN
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  RETURN EXISTS (
+    SELECT 1 FROM sms_opt_outs
+    WHERE preschool_id = p_preschool_id
+      AND phone_number = p_phone_number
+      AND opted_in_at IS NULL -- Still opted out
+  );
+END;
+$$;
+
+-- Get valid OAuth token (auto-refresh if expired)
+CREATE OR REPLACE FUNCTION get_valid_oauth_token(
+  p_user_id UUID,
+  p_provider TEXT
+)
+RETURNS TABLE (
+  access_token TEXT,
+  expires_at TIMESTAMPTZ
+)
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  -- Return token if not expired
+  RETURN QUERY
+  SELECT ot.access_token, ot.expires_at
+  FROM oauth_tokens ot
+  WHERE ot.user_id = p_user_id
+    AND ot.provider = p_provider
+    AND ot.expires_at > NOW() + INTERVAL '5 minutes' -- 5 min buffer
+  LIMIT 1;
+  
+  -- If no valid token, caller should refresh via Edge Function
+END;
+$$;
+
+-- ============================================================================
+-- 8. Comments for Documentation
+-- ============================================================================
+
+COMMENT ON TABLE oauth_tokens IS 'Stores OAuth tokens for third-party integrations (Google, Microsoft)';
+COMMENT ON TABLE sms_messages IS 'Tracks all SMS messages sent via Twilio/ClickSend';
+COMMENT ON TABLE sms_opt_outs IS 'Tracks phone numbers that opted out of SMS notifications';
+COMMENT ON TABLE calendar_event_mappings IS 'Maps internal events to external calendar systems';
+COMMENT ON TABLE integration_audit_log IS 'Audit trail for all third-party API calls';
+
+-- ============================================================================
+-- End of Migration
+-- ============================================================================

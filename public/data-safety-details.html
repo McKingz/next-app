@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Comprehensive Google Play Data Safety details for EduDash Pro - data collection, usage, and sharing information.">
+    <title>Data Safety Details | EduDash Pro - Google Play</title>
+    <style>
+        :root {
+            --primary-color: #00f5ff;
+            --dark-bg: #0a0a0f;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --card-bg: #1a1a24;
+            --border-color: #2a2a3a;
+            --success-color: #00ff88;
+            --warning-color: #ffaa00;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 245, 255, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            color: var(--primary-color);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        p, li {
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+        }
+
+        ul {
+            margin-left: 24px;
+            margin-bottom: 16px;
+        }
+
+        .summary-box {
+            background: rgba(0, 245, 255, 0.05);
+            padding: 24px;
+            border-radius: 8px;
+            margin: 24px 0;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .warning-box {
+            background: rgba(255, 170, 0, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid var(--warning-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+
+        th {
+            background: rgba(0, 245, 255, 0.1);
+            color: var(--primary-color);
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 4px;
+        }
+
+        .badge-yes {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--success-color);
+        }
+
+        .badge-no {
+            background: rgba(255, 68, 68, 0.2);
+            color: #ff4444;
+        }
+
+        .badge-required {
+            background: rgba(255, 170, 0, 0.2);
+            color: var(--warning-color);
+        }
+
+        .badge-optional {
+            background: rgba(0, 245, 255, 0.2);
+            color: var(--primary-color);
+        }
+
+        .code {
+            background: var(--dark-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: var(--primary-color);
+        }
+
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            .container {
+                box-shadow: none;
+                background: white;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            table {
+                font-size: 0.8rem;
+            }
+            th, td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Google Play Data Safety - Detailed Reference</h1>
+        
+        <p>This document provides comprehensive information for completing the Google Play Data Safety form for <strong>EduDash Pro</strong>. Use this as a reference when filling out each section of the Data Safety questionnaire.</p>
+
+        <div class="summary-box">
+            <h3>Quick Summary</h3>
+            <ul>
+                <li><strong>App Collects Data:</strong> ✅ YES</li>
+                <li><strong>Data Encrypted in Transit:</strong> ✅ YES (TLS/HTTPS)</li>
+                <li><strong>Account Creation:</strong> Username/Password, Biometric, Multi-Factor</li>
+                <li><strong>Data Deletion:</strong> <a href="https://www.edudashpro.org.za/data-deletion" style="color: var(--primary-color);">www.edudashpro.org.za/data-deletion</a></li>
+                <li><strong>Target Age:</strong> Includes children (ages 3-6)</li>
+                <li><strong>Families Policy:</strong> ✅ Committed</li>
+            </ul>
+        </div>
+
+        <div class="warning-box">
+            <h3>⚠️ Important Notes</h3>
+            <ul>
+                <li><strong>Production-Only Services:</strong> Sentry, PostHog, and AdMob are only active in production builds</li>
+                <li><strong>Child-Directed Treatment:</strong> All ads use child-directed treatment settings (COPPA compliant)</li>
+                <li><strong>PII Redaction:</strong> All AI requests redact personally identifiable information before sending to Anthropic</li>
+                <li><strong>Multi-Tenant Isolation:</strong> All data filtered by <span class="code">preschool_id</span> with RLS policies</li>
+            </ul>
+        </div>
+
+        <h2>1. Location Data</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Data Type</th>
+                    <th>Collected</th>
+                    <th>Required/Optional</th>
+                    <th>Purpose</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Precise Location</strong></td>
+                    <td><span class="badge badge-no">NO</span></td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>GPS coordinates are NOT collected</td>
+                </tr>
+                <tr>
+                    <td><strong>Approximate Location</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-optional">Optional</span></td>
+                    <td>Fraud prevention, Security</td>
+                    <td>Derived from IP address for rate limiting and security logs only. Not used for advertising or analytics.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>2. Personal Information</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Data Type</th>
+                    <th>Collected</th>
+                    <th>Required/Optional</th>
+                    <th>Purpose</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Name</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-required">Required</span></td>
+                    <td>Account management, App functionality</td>
+                    <td>First name and last name for users (principals, teachers, parents) and students (children ages 3-6). Stored in <span class="code">users</span> table.</td>
+                </tr>
+                <tr>
+                    <td><strong>Email Address</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-required">Required</span></td>
+                    <td>Account management, Communications</td>
+                    <td>Used for authentication (Supabase Auth), password reset, notifications. Not collected for children.</td>
+                </tr>
+                <tr>
+                    <td><strong>User IDs</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-required">Required</span></td>
+                    <td>App functionality, Account management</td>
+                    <td>UUID identifiers for users, organizations (<span class="code">preschool_id</span>), and sessions. Auto-generated.</td>
+                </tr>
+                <tr>
+                    <td><strong>Address</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-optional">Optional</span></td>
+                    <td>Account management</td>
+                    <td>Physical address of preschool organization only. Not collected for individual users or children.</td>
+                </tr>
+                <tr>
+                    <td><strong>Phone Number</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-optional">Optional</span></td>
+                    <td>Communications, Account management</td>
+                    <td>Contact number for organization and optional for users. Used for SMS notifications if enabled.</td>
+                </tr>
+                <tr>
+                    <td><strong>Race and Ethnicity</strong></td>
+                    <td><span class="badge badge-no">NO</span></td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>Not collected</td>
+                </tr>
+                <tr>
+                    <td><strong>Political/Religious Beliefs</strong></td>
+                    <td><span class="badge badge-no">NO</span></td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>Not collected</td>
+                </tr>
+                <tr>
+                    <td><strong>Sexual Orientation</strong></td>
+                    <td><span class="badge badge-no">NO</span></td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>Not collected</td>
+                </tr>
+                <tr>
+                    <td><strong>Other Personal Info</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-optional">Optional</span></td>
+                    <td>App functionality</td>
+                    <td>Child age/grade level (3-6 years), user role (principal/teacher/parent), organization registration number.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>3. Financial Information</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Data Type</th>
+                    <th>Collected</th>
+                    <th>Required/Optional</th>
+                    <th>Purpose</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>User Payment Info</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-optional">Optional</span></td>
+                    <td>Payments</td>
+                    <td>Payment transaction metadata via PayFast integration. <strong>Credit card numbers are NOT stored by EduDash Pro</strong> - handled securely by PayFast payment processor.</td>
+                </tr>
+                <tr>
+                    <td><strong>Purchase History</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-optional">Optional</span></td>
+                    <td>Payments, Account management</td>
+                    <td>Subscription plans, billing history, invoice records stored in <span class="code">subscriptions</span> and <span class="code">payment_transactions</span> tables.</td>
+                </tr>
+                <tr>
+                    <td><strong>Credit Score</strong></td>
+                    <td><span class="badge badge-no">NO</span></td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>Not collected</td>
+                </tr>
+                <tr>
+                    <td><strong>Other Financial Info</strong></td>
+                    <td><span class="badge badge-no">NO</span></td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>Not collected</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>4. Health and Fitness</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Data Type</th>
+                    <th>Collected</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Health Info</strong></td>
+                    <td><span class="badge badge-no">NO</span></td>
+                    <td>Not collected</td>
+                </tr>
+                <tr>
+                    <td><strong>Fitness Info</strong></td>
+                    <td><span class="badge badge-no">NO</span></td>
+                    <td>Not collected</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>5. Messages</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Data Type</th>
+                    <th>Collected</th>
+                    <th>Required/Optional</th>
+                    <th>Purpose</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Emails</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-optional">Optional</span></td>
+                    <td>Communications</td>
+                    <td>Email communications for notifications, password reset, system announcements stored in <span class="code">email_logs</span> table.</td>
+                </tr>
+                <tr>
+                    <td><strong>SMS or MMS</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-optional">Optional</span></td>
+                    <td>Communications</td>
+                    <td>SMS notifications if enabled by user. Stored in <span class="code">sms_logs</span> table. Not collected from children.</td>
+                </tr>
+                <tr>
+                    <td><strong>In-app Messages</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-optional">Optional</span></td>
+                    <td>App functionality, Communications</td>
+                    <td>AI conversations with Dash assistant (<span class="code">ai_conversations</span> table), in-app announcements, WhatsApp messages if integration enabled.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Photos and Videos</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Data Type</th>
+                    <th>Collected</th>
+                    <th>Required/Optional</th>
+                    <th>Purpose</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Photos</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-optional">Optional</span></td>
+                    <td>App functionality</td>
+                    <td>Profile pictures, classroom photos, educational media uploaded by teachers/parents. Stored in Supabase Storage (<span class="code">dash_storage</span> table). <strong>Requires camera and photo library permissions.</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Videos</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-optional">Optional</span></td>
+                    <td>App functionality</td>
+                    <td>Educational videos uploaded by teachers. Storage same as photos.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>7. Audio Files</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Data Type</th>
+                    <th>Collected</th>
+                    <th>Required/Optional</th>
+                    <th>Purpose</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Voice or Sound Recordings</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-optional">Optional</span></td>
+                    <td>App functionality, Personalization</td>
+                    <td>Voice recordings for Dash AI assistant interactions. Processed via Microsoft Azure Cognitive Services Speech SDK for speech-to-text/text-to-speech. Cached in <span class="code">dash_voice_cache</span> table (90-day retention, user can delete). <strong>Requires microphone permission.</strong> Languages: en-ZA, af-ZA, zu-ZA, xh-ZA.</td>
+                </tr>
+                <tr>
+                    <td><strong>Music Files</strong></td>
+                    <td><span class="badge badge-no">NO</span></td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>Not collected</td>
+                </tr>
+                <tr>
+                    <td><strong>Other Audio Files</strong></td>
+                    <td><span class="badge badge-no">NO</span></td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>Not collected</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>8. Files and Docs</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Data Type</th>
+                    <th>Collected</th>
+                    <th>Required/Optional</th>
+                    <th>Purpose</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Files and Docs</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-optional">Optional</span></td>
+                    <td>App functionality</td>
+                    <td>Assignment submissions, lesson plans, progress reports, exported PDFs stored in Supabase Storage. User-uploadable via <span class="code">dash_storage</span> and <span class="code">pop_uploads</span> tables.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>9. Calendar</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Data Type</th>
+                    <th>Collected</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Calendar Events</strong></td>
+                    <td><span class="badge badge-no">NO</span></td>
+                    <td>Not collected from device calendar. In-app calendar events stored internally.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>10. Contacts</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Data Type</th>
+                    <th>Collected</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Contacts</strong></td>
+                    <td><span class="badge badge-no">NO</span></td>
+                    <td>Device contacts are NOT accessed or imported</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>11. App Activity</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Data Type</th>
+                    <th>Collected</th>
+                    <th>Required/Optional</th>
+                    <th>Purpose</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>App Interactions</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-optional">Optional</span></td>
+                    <td>Analytics, App functionality</td>
+                    <td>Feature usage, button clicks, screen views tracked via PostHog (production only). Session analytics in <span class="code">ai_usage_logs</span> table.</td>
+                </tr>
+                <tr>
+                    <td><strong>In-app Search History</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-optional">Optional</span></td>
+                    <td>App functionality, Personalization</td>
+                    <td>Dash AI queries and prompts stored in <span class="code">ai_conversations</span> table for context and personalization. User can delete.</td>
+                </tr>
+                <tr>
+                    <td><strong>Installed Apps</strong></td>
+                    <td><span class="badge badge-no">NO</span></td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>Not collected</td>
+                </tr>
+                <tr>
+                    <td><strong>Other User-Generated Content</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-optional">Optional</span></td>
+                    <td>App functionality</td>
+                    <td>Lesson plans, assignments, notes, tasks created by teachers. Student progress data entered by teachers.</td>
+                </tr>
+                <tr>
+                    <td><strong>Other Actions</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-optional">Optional</span></td>
+                    <td>App functionality, Analytics</td>
+                    <td>Login/logout events, subscription changes, AI quota usage tracked in various audit tables.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>12. Web Browsing</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Data Type</th>
+                    <th>Collected</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Web Browsing History</strong></td>
+                    <td><span class="badge badge-no">NO</span></td>
+                    <td>Not collected</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>13. App Info and Performance</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Data Type</th>
+                    <th>Collected</th>
+                    <th>Required/Optional</th>
+                    <th>Purpose</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Crash Logs</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-optional">Optional</span></td>
+                    <td>Analytics</td>
+                    <td>Error tracking via Sentry (production only). Includes stack traces, device info, app version. Helps identify and fix bugs.</td>
+                </tr>
+                <tr>
+                    <td><strong>Diagnostics</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-optional">Optional</span></td>
+                    <td>Analytics</td>
+                    <td>Performance metrics, session duration, memory usage via PostHog (production only) and <span class="code">service_monitoring</span> table.</td>
+                </tr>
+                <tr>
+                    <td><strong>Other App Performance Data</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-optional">Optional</span></td>
+                    <td>Analytics, App functionality</td>
+                    <td>API response times, database query performance, AI processing time for quality monitoring.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>14. Device or Other IDs</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Data Type</th>
+                    <th>Collected</th>
+                    <th>Required/Optional</th>
+                    <th>Purpose</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Device or Other IDs</strong></td>
+                    <td><span class="badge badge-yes">YES</span></td>
+                    <td><span class="badge badge-optional">Optional</span></td>
+                    <td>Analytics, Advertising, App functionality</td>
+                    <td>
+                        <ul style="margin: 0;">
+                            <li><strong>Device Instance IDs:</strong> For push notifications (<span class="code">push_tokens</span> table)</li>
+                            <li><strong>AdMob Advertising ID:</strong> Production only, child-directed treatment enabled (COPPA compliant)</li>
+                            <li><strong>Supabase Auth IDs:</strong> Session management and authentication</li>
+                            <li><strong>Analytics IDs:</strong> PostHog session IDs (production only)</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Data Sharing & Third Parties</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Service Provider</th>
+                    <th>Purpose</th>
+                    <th>Data Shared</th>
+                    <th>Privacy Policy</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Supabase</strong></td>
+                    <td>Database, Auth, Storage</td>
+                    <td>All user data (encrypted in transit and at rest)</td>
+                    <td><a href="https://supabase.com/privacy" style="color: var(--primary-color);" target="_blank">Link</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Anthropic (Claude AI)</strong></td>
+                    <td>AI-powered assistance</td>
+                    <td>AI prompts (PII redacted server-side via Edge Function)</td>
+                    <td><a href="https://www.anthropic.com/privacy" style="color: var(--primary-color);" target="_blank">Link</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Microsoft Azure</strong></td>
+                    <td>Speech-to-text, Text-to-speech</td>
+                    <td>Voice recordings for transcription</td>
+                    <td><a href="https://privacy.microsoft.com/" style="color: var(--primary-color);" target="_blank">Link</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Google AdMob</strong></td>
+                    <td>Contextual advertising (free tier)</td>
+                    <td>Device ID, ad interactions (child-directed treatment)</td>
+                    <td><a href="https://policies.google.com/privacy" style="color: var(--primary-color);" target="_blank">Link</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Sentry</strong></td>
+                    <td>Error monitoring</td>
+                    <td>Crash logs, stack traces (production only)</td>
+                    <td><a href="https://sentry.io/privacy/" style="color: var(--primary-color);" target="_blank">Link</a></td>
+                </tr>
+                <tr>
+                    <td><strong>PostHog</strong></td>
+                    <td>Product analytics</td>
+                    <td>Usage events, anonymized (production only)</td>
+                    <td><a href="https://posthog.com/privacy" style="color: var(--primary-color);" target="_blank">Link</a></td>
+                </tr>
+                <tr>
+                    <td><strong>PayFast</strong></td>
+                    <td>Payment processing</td>
+                    <td>Payment information, email</td>
+                    <td><a href="https://www.payfast.co.za/privacy-policy/" style="color: var(--primary-color);" target="_blank">Link</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Children's Privacy & Families Policy</h2>
+        
+        <div class="summary-box">
+            <h3>Child-Directed Treatment</h3>
+            <ul>
+                <li><strong>Target Age:</strong> 3-6 years (preschool)</li>
+                <li><strong>Parental Consent:</strong> Required before collecting any child data</li>
+                <li><strong>Data Minimization:</strong> Only necessary information collected</li>
+                <li><strong>Ad Treatment:</strong> Child-directed treatment enabled (COPPA compliant)</li>
+                <li><strong>Ad Rating:</strong> G (General Audiences) maximum</li>
+                <li><strong>No Personalized Ads:</strong> For children</li>
+                <li><strong>No Precise Location:</strong> Only approximate via IP for security</li>
+                <li><strong>Parental Rights:</strong> Review, delete, or correct child's data</li>
+            </ul>
+        </div>
+
+        <h2>Data Handling Practices</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Practice</th>
+                    <th>Implementation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Encryption in Transit</strong></td>
+                    <td>✅ YES - All data transmitted via TLS/HTTPS</td>
+                </tr>
+                <tr>
+                    <td><strong>Encryption at Rest</strong></td>
+                    <td>✅ YES - Database encryption managed by Supabase (AES-256)</td>
+                </tr>
+                <tr>
+                    <td><strong>Data Deletion</strong></td>
+                    <td>✅ YES - User can request deletion via <a href="https://www.edudashpro.org.za/data-deletion" style="color: var(--primary-color);">www.edudashpro.org.za/data-deletion</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Account Deletion</strong></td>
+                    <td>✅ YES - Full account deletion available (30-day grace period)</td>
+                </tr>
+                <tr>
+                    <td><strong>Selective Deletion</strong></td>
+                    <td>✅ YES - Users can delete specific data types (voice, AI conversations, files) without deleting account</td>
+                </tr>
+                <tr>
+                    <td><strong>Data Portability</strong></td>
+                    <td>✅ YES - Users can export their data in machine-readable format (JSON)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Data Retention</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Data Type</th>
+                    <th>Retention Period</th>
+                    <th>Reason</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Account data</td>
+                    <td>While active + 30 days after deletion</td>
+                    <td>Service delivery, grace period</td>
+                </tr>
+                <tr>
+                    <td>Children's data</td>
+                    <td>While enrolled + 30 days after deletion</td>
+                    <td>Educational records, grace period</td>
+                </tr>
+                <tr>
+                    <td>Voice recordings</td>
+                    <td>90 days (user configurable)</td>
+                    <td>Performance, user can delete anytime</td>
+                </tr>
+                <tr>
+                    <td>AI conversations</td>
+                    <td>While active (user can delete)</td>
+                    <td>Service quality</td>
+                </tr>
+                <tr>
+                    <td>Financial records</td>
+                    <td>7 years</td>
+                    <td>Legal/tax compliance (South African law)</td>
+                </tr>
+                <tr>
+                    <td>Security logs</td>
+                    <td>1 year</td>
+                    <td>Security and fraud prevention</td>
+                </tr>
+                <tr>
+                    <td>Analytics data</td>
+                    <td>2 years (anonymized)</td>
+                    <td>Product improvement</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Compliance</h2>
+        
+        <div class="summary-box">
+            <h3>Regulatory Compliance</h3>
+            <ul>
+                <li><strong>GDPR:</strong> European data protection standards followed</li>
+                <li><strong>POPIA:</strong> South African data protection law (Protection of Personal Information Act)</li>
+                <li><strong>COPPA:</strong> US children's privacy law compliance</li>
+                <li><strong>Google Play Families Policy:</strong> Child-directed treatment requirements met</li>
+            </ul>
+        </div>
+
+        <hr style="margin: 40px 0; border: none; border-top: 1px solid var(--border-color);">
+
+        <div style="text-align: center; color: var(--text-secondary);">
+            <p>
+                <strong>Privacy Policy:</strong> <a href="https://www.edudashpro.org.za/privacy-policy" style="color: var(--primary-color);">www.edudashpro.org.za/privacy-policy</a><br>
+                <strong>Data Deletion:</strong> <a href="https://www.edudashpro.org.za/data-deletion" style="color: var(--primary-color);">www.edudashpro.org.za/data-deletion</a><br>
+                <strong>Contact:</strong> <a href="mailto:privacy@edudashpro.org.za" style="color: var(--primary-color);">privacy@edudashpro.org.za</a>
+            </p>
+            <p style="margin-top: 16px;">© 2025 EduDash Pro (Pty) Ltd. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
