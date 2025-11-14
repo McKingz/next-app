@@ -30,6 +30,10 @@ const MODEL_PRICING: Record<ClaudeModel, { input: number; output: number }> = {
   'claude-3-5-sonnet-20241022': {
     input: 0.000003,     // $3.00/1M tokens
     output: 0.000015,    // $15.00/1M tokens
+  },
+  'claude-sonnet-4-20250514': {
+    input: 0.000005,     // $5.00/1M tokens (estimated)
+    output: 0.000020,    // $20.00/1M tokens (estimated)
   }
 }
 

@@ -21,7 +21,7 @@ export async function handleToolExecution(
     hasImages: boolean
     images: any[] | undefined
     availableTools: any[] | undefined
-    provider?: 'claude' | 'openai'
+    provider?: 'claude' | 'openai' | 'glm'
   },
   loggingContext: {
     supabaseAdmin: any
@@ -103,8 +103,18 @@ export async function handleToolExecution(
       conversationHistory,
       tools: config.availableTools
     });
+  } else if (provider === 'glm') {
+    // GLM continuation after tool execution (tools not supported yet)
+    console.warn(`[tool-handler] GLM does not support tool continuation yet, using original response`);
+    continuationResult = {
+      content: aiResult.content,
+      tokensIn: aiResult.tokensIn,
+      tokensOut: aiResult.tokensOut,
+      cost: aiResult.cost,
+      model: aiResult.model
+    };
   } else {
-    // Claude continuation after tool execution
+    // Claude continuation after tool execution (default)
     continuationResult = await callClaude({
       apiKey: config.apiKey,
       model: aiResult.model,

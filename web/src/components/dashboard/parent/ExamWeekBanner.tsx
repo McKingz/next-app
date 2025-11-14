@@ -11,13 +11,13 @@ export function ExamWeekBanner({ onStartExamPrep }: ExamWeekBannerProps) {
     <div 
       className="card" 
       style={{
-        background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+        background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
         color: 'white',
         padding: '16px 20px',
         marginBottom: 16,
         cursor: 'pointer',
-        border: '2px solid #fca5a5',
-        boxShadow: '0 4px 20px rgba(239, 68, 68, 0.3)'
+        border: '2px solid #93c5fd',
+        boxShadow: '0 4px 20px rgba(59, 130, 246, 0.3)'
       }} 
       onClick={onStartExamPrep}
     >
@@ -42,7 +42,7 @@ export function ExamWeekBanner({ onStartExamPrep }: ExamWeekBannerProps) {
         <button
           style={{
             background: 'white',
-            color: '#dc2626',
+            color: '#1d4ed8',
             border: 'none',
             padding: '8px 16px',
             borderRadius: 8,

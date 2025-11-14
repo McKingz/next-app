@@ -109,9 +109,16 @@ export interface ModelConfig {
 }
 
 // ===== AI Client Types =====
+// Import unified types from central models definition
+import type { AIModelId, SubscriptionTier, VersionedAIModelId, simplifyToVersioned } from '../../../lib/ai/models.ts'
 
-export type ClaudeModel = 'claude-3-haiku-20240307' | 'claude-3-5-sonnet-20241022' | 'claude-sonnet-4-20250514'
-export type SubscriptionTier = 'free' | 'starter' | 'basic' | 'premium' | 'pro' | 'enterprise'
+export type ClaudeModel = VersionedAIModelId
+export type GLMModel = 'glm-4.6' | 'glm-4-plus'
+export type OpenAIModel = 'gpt-4o' | 'gpt-4o-mini' | 'gpt-3.5-turbo'
+export type AIModel = ClaudeModel | GLMModel | OpenAIModel
+
+// Re-export SubscriptionTier for backward compatibility
+export { SubscriptionTier }
 
 export interface ClaudeTool {
   name: string

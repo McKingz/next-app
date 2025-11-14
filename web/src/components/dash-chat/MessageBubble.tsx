@@ -102,10 +102,11 @@ export function MessageBubble({ message, onRetry }: MessageBubbleProps) {
         )}
       </div>
 
-      {/* Message Content - Much Wider (85%) */}
+      {/* Message Content - Responsive Width */}
       <div
         style={{
-          maxWidth: '85%',
+          maxWidth: 'min(85%, calc(100vw - 120px))',
+          width: isUser ? 'auto' : undefined,
           display: 'flex',
           flexDirection: 'column',
           gap: 8,

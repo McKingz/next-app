@@ -241,7 +241,7 @@ export function ChatInterface({
             allow_diagrams: true,  // Allow mermaid diagrams and illustrations
           },
           enable_tools: true, // Enable CAPS curriculum & database tools
-          prefer_openai: true,
+          prefer_openai: selectedImages.length === 0, // Only prefer OpenAI when no images
           stream: false,
         },
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
@@ -441,24 +441,23 @@ export function ChatInterface({
       )}
       
       <div className="chat-container">
-      {/* Messages Area - Scrollable with hidden scrollbar */}
-      <div className="chat-scroll">
-        <div style={{
-          padding: '20px 8px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 16,
-          minHeight: '100%',
-        }}>
-        {messages.length === 0 && (
-          <div className="chat-header-empty">
-            <div className="chat-logo">
-              <Sparkles size={40} color="white" />
-            </div>
-            <h3 className="chat-title">Hi! I'm Dash</h3>
-            <p className="chat-subtitle">Ask me anything! I can help with homework, explain concepts, solve problems, and more.</p>
+        {/* Chat Header */}
+        <div className="chat-header">
+          <div className="chat-logo">
+            <Sparkles size={24} color="white" />
           </div>
-        )}
+          <div className="chat-title">dash</div>
+        </div>
+
+        {/* Messages Area - Scrollable with hidden scrollbar */}
+        <div className="chat-scroll">
+          <div className="messages-container">
+          {messages.length === 0 && (
+            <div className="chat-header-empty">
+              <h3 className="chat-title">Hi! I'm Dash</h3>
+              <p className="chat-subtitle">Ask me anything! I can help with homework, explain concepts, solve problems, and more.</p>
+            </div>
+          )}
 
         {messages.map((message, index) => (
           <MessageBubble 
@@ -490,12 +489,7 @@ export function ChatInterface({
         {/* Show Exam Builder button after exam-related responses */}
         {messages.length > 0 && messages[messages.length - 1]?.role === 'assistant' && 
          messages[messages.length - 1]?.content.toLowerCase().includes('exam builder') && (
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            marginTop: '12px',
-            marginBottom: '8px'
-          }}>
+          <div className="exam-builder-cta">
             <button
               onClick={() => {
                 // Extract context from the last assistant message
@@ -506,29 +500,7 @@ export function ChatInterface({
                 }
                 setShowExamBuilder(true);
               }}
-              className="btn btnPrimary"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '12px 24px',
-                fontSize: '14px',
-                fontWeight: 600,
-                background: 'linear-gradient(135deg, #7c3aed 0%, #ec4899 100%)',
-                border: 'none',
-                borderRadius: '12px',
-                boxShadow: '0 4px 12px rgba(124, 58, 237, 0.25)',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 6px 20px rgba(124, 58, 237, 0.35)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(124, 58, 237, 0.25)';
-              }}
+              className="exam-builder-btn"
             >
               <FileText size={18} />
               Launch Exam Builder
@@ -539,14 +511,14 @@ export function ChatInterface({
 
         {isTyping && (
           <div className="chat-typing">
-            <div className="chat-logo" style={{width:32,height:32,margin:0}}>
+            <div className="typing-indicator-logo">
               <Sparkles size={16} color="white" />
             </div>
             <div className="chat-typing-bubble">
-              <div style={{ display: 'flex', gap: 4 }}>
-                <div className="typing-dot" style={{ animationDelay: '0ms' }}></div>
-                <div className="typing-dot" style={{ animationDelay: '150ms' }}></div>
-                <div className="typing-dot" style={{ animationDelay: '300ms' }}></div>
+              <div className="typing-dots">
+                <div className="typing-dot typing-dot-1"></div>
+                <div className="typing-dot typing-dot-2"></div>
+                <div className="typing-dot typing-dot-3"></div>
               </div>
             </div>
           </div>
@@ -567,62 +539,17 @@ export function ChatInterface({
 
       {/* Selected Images Preview - Enhanced */}
       {selectedImages.length > 0 && (
-        <div style={{
-          padding: '12px 20px',
-          borderTop: '1px solid var(--border)',
-          background: 'var(--surface)',
-          position: 'sticky',
-          bottom: 0,
-          zIndex: 49
-        }}>
-          <div style={{
-            display: 'flex',
-            gap: '8px',
-            flexWrap: 'wrap',
-            maxWidth: 'var(--chat-max-w, 760px)',
-            margin: '0 auto'
-          }}>
+        <div className="selected-images-preview">
+          <div className="selected-images-grid">
             {selectedImages.map((img, index) => (
-              <div key={index} style={{
-                position: 'relative',
-                width: '64px',
-                height: '64px',
-                borderRadius: '12px',
-                overflow: 'hidden',
-                border: '2px solid var(--primary)',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
-              }}>
+              <div key={index} className="selected-image-thumb">
                 <img
                   src={img.preview}
                   alt={`Selected ${index + 1}`}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
                 <button
                   onClick={() => removeImage(index)}
-                  style={{
-                    position: 'absolute',
-                    top: 2,
-                    right: 2,
-                    width: 20,
-                    height: 20,
-                    borderRadius: '50%',
-                    background: 'rgba(0,0,0,0.8)',
-                    border: 'none',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: 0,
-                    transition: 'all 0.2s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(0,0,0,0.9)';
-                    e.currentTarget.style.transform = 'scale(1.1)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(0,0,0,0.8)';
-                    e.currentTarget.style.transform = 'scale(1)';
-                  }}
+                  className="remove-image-btn"
                 >
                   <X size={12} color="white" />
                 </button>
@@ -633,177 +560,49 @@ export function ChatInterface({
       )}
 
       {/* Input Area - Modern WhatsApp Style */}
-      <div style={{ 
-        padding: '10px 1px 5px 12px', 
-        background: 'var(--surface)', 
-        borderTop: '1px solid var(--border)',
-        position: 'fixed',
-        bottom: 5,
-        left: 0,
-        right: 0,
-        zIndex: 50,
-        backdropFilter: 'blur(18px)',
-        WebkitBackdropFilter: 'blur(18px)'
-      }}>
-        <div style={{ 
-          display: 'flex', 
-          gap: '10px', 
-          alignItems: 'flex-end',
-          maxWidth: 'var(--chat-max-w, 760px)',
-          margin: '0 auto'
-        }}>
-          {/* Camera/Image Button */}
-          <button 
-            onClick={() => setShowImageUpload(true)} 
-            disabled={isLoading} 
-            style={{ 
-              width: 44, 
-              height: 44, 
-              padding: 0, 
-              borderRadius: '50%',
-              background: 'var(--surface-2)',
-              border: '1px solid var(--border)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexShrink: 0,
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-            }}
-            onMouseEnter={(e) => {
-              if (!isLoading) {
-                e.currentTarget.style.background = 'var(--surface-3, var(--surface-2))';
-                e.currentTarget.style.borderColor = 'rgba(124,58,237,0.3)';
-                e.currentTarget.style.transform = 'translateY(-1px)';
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-              }
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'var(--surface-2)';
-              e.currentTarget.style.borderColor = 'var(--border)';
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
-            }}
-            title="Attach image or photo"
-          >
-            <Camera size={15} color="var(--muted)" />
-          </button>
+        <div className="chat-toolbar">
+          <div className="chat-input-row">
+            {/* Camera/Image Button */}
+            <button
+              onClick={() => setShowImageUpload(true)}
+              disabled={isLoading}
+              className="icon-btn"
+              title="Attach image or photo"
+            >
+              <Camera size={15} color="var(--muted)" />
+            </button>
 
-          {/* Text Input Container - Enhanced WhatsApp Style */}
-          <div style={{ 
-            flex: 1,
-            position: 'relative',
-            background: 'var(--surface-2)',
-            border: '1px solid var(--border)',
-            borderRadius: '20px',
-            display: 'flex',
-            alignItems: 'center',
-            minHeight: 40,
-            maxHeight: 120,
-            overflow: 'hidden',
-            transition: 'all 0.2s ease',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
-          }}
-          onFocusCapture={(e) => {
-            e.currentTarget.style.borderColor = 'rgba(124,58,237,0.5)';
-            e.currentTarget.style.boxShadow = '0 2px 8px rgba(124,58,237,0.15)';
-          }}
-          onBlurCapture={(e) => {
-            e.currentTarget.style.borderColor = 'var(--border)';
-            e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
-          }}
-          >
-            <textarea
-              ref={inputRef}
-              value={input}
+            {/* Text Input Container */}
+            <div className="input-wrap">
+              <textarea
+                ref={inputRef}
+                value={input}
               onChange={(e) => {
                 setInput(e.target.value);
                 // Auto-resize textarea
                 if (inputRef.current) {
                   inputRef.current.style.height = 'auto';
-                  const newHeight = Math.min(inputRef.current.scrollHeight, 80);
+                  const newHeight = Math.min(inputRef.current.scrollHeight, 72);
                   inputRef.current.style.height = newHeight + 'px';
                 }
               }}
-              onKeyPress={handleKeyPress}
-              placeholder="Message Dash..."
-              disabled={isLoading}
-              style={{ 
-                width: '100%',
-                height: 'auto',
-                minHeight: '10px',
-                maxHeight: '30px',
-                padding: '11px 4px 11px 14px',
-                fontSize: '16px', // 16px prevents zoom on iOS mobile
-                border: 'none',
-                borderRadius: '20px',
-                background: 'transparent',
-                color: 'var(--text)',
-                resize: 'none',
-                fontFamily: 'inherit',
-                lineHeight: '1.3',
-                outline: 'none',
-                overflowY: 'auto',
-                fontWeight: 400
-              }}
-              rows={1}
-            />
-            {/* Send Button - Enhanced with Gradient */}
-            <button
-              onClick={() => handleSend()}
-              disabled={isLoading || (!input.trim() && selectedImages.length === 0)}
-              style={{ 
-                position: 'absolute',
-                right: 4,
-                bottom: 4,
-                top: 4,
-                width: 30,
-                height: 30,
-                padding: 0,
-                border: 'none',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: (isLoading || (!input.trim() && selectedImages.length === 0)) ? 'not-allowed' : 'pointer',
-                opacity: (isLoading || (!input.trim() && selectedImages.length === 0)) ? 0.4 : 1,
-                background: (isLoading || (!input.trim() && selectedImages.length === 0)) 
-                  ? 'var(--muted)' 
-                  : 'linear-gradient(135deg, #7c3aed 0%, #ec4899 100%)',
-                transition: 'all 0.2s ease',
-                boxShadow: '0 1px 3px rgba(0,0,0,0.2)'
-              }}
-              onMouseEnter={(e) => {
-                if (!isLoading && (input.trim() || selectedImages.length > 0)) {
-                  e.currentTarget.style.transform = 'scale(1.05)';
-                  e.currentTarget.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)';
-                  e.currentTarget.style.background = 'linear-gradient(135deg, #8b5cf6 0%, #f472b6 100%)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!isLoading && (input.trim() || selectedImages.length > 0)) {
-                  e.currentTarget.style.transform = 'scale(1)';
-                  e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.2)';
-                  e.currentTarget.style.background = 'linear-gradient(135deg, #7c3aed 0%, #ec4899 100%)';
-                }
-              }}
-              onMouseDown={(e) => {
-                if (!isLoading && (input.trim() || selectedImages.length > 0)) {
-                  e.currentTarget.style.transform = 'scale(0.95)';
-                }
-              }}
-              onMouseUp={(e) => {
-                if (!isLoading && (input.trim() || selectedImages.length > 0)) {
-                  e.currentTarget.style.transform = 'scale(1.05)';
-                }
-              }}
-            >
-              {isLoading ? <Loader2 size={14} className="spin" color="white" /> : <Send size={14} color="white" />}
-            </button>
+                onKeyPress={handleKeyPress}
+                placeholder="Message Dash..."
+                disabled={isLoading}
+                className="input"
+                rows={1}
+              />
+              {/* Send Button */}
+              <button
+                onClick={() => handleSend()}
+                disabled={isLoading || (!input.trim() && selectedImages.length === 0)}
+                className={`send-btn ${input.trim() || selectedImages.length > 0 ? 'send-btn--ready' : 'send-btn--idle'}`}
+              >
+                {isLoading ? <Loader2 size={14} className="spin" color="white" /> : <Send size={14} color="white" />}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
       
       {/* Floating Exam Builder Button */}
       <button
@@ -815,31 +614,6 @@ export function ChatInterface({
           setShowExamBuilder(true);
         }}
         className="floating-exam-button"
-        style={{
-          position: 'fixed',
-          bottom: '100px',
-          right: '24px',
-          width: '56px',
-          height: '56px',
-          borderRadius: '50%',
-          background: 'linear-gradient(135deg, #7c3aed 0%, #ec4899 100%)',
-          border: 'none',
-          boxShadow: '0 4px 16px rgba(124, 58, 237, 0.4)',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 100,
-          transition: 'all 0.3s ease',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'scale(1.1)';
-          e.currentTarget.style.boxShadow = '0 6px 24px rgba(124, 58, 237, 0.5)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'scale(1)';
-          e.currentTarget.style.boxShadow = '0 4px 16px rgba(124, 58, 237, 0.4)';
-        }}
         title="Create CAPS Exam"
       >
         <FileText size={24} color="white" />

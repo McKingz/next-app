@@ -1,15 +1,18 @@
 /**
  * Model Selection Logic
  * 
- * Selects appropriate Claude model based on:
+ * Selects appropriate AI model based on:
  * - Subscription tier
  * - Features required (vision, etc.)
  * - Cost optimization
+ * - Provider preferences and availability
  * 
  * WARP.md Compliance: Single Responsibility (model selection only)
  */
 
-import type { ClaudeModel, SubscriptionTier } from '../types.ts'
+import type { ClaudeModel, GLMModel, OpenAIModel, SubscriptionTier } from '../types.ts'
+import type { AIModelId, VersionedAIModelId } from '../../../../lib/ai/models'
+import { canAccessModel, getDefaultModelForTier, simplifyToVersioned } from '../../../../lib/ai/models'
 
 /**
  * Tier-based model selection
@@ -37,7 +40,7 @@ export function selectModelForTier(
 
   // For text-only, use Haiku for lower tiers, Sonnet 3.7 for premium
   if (['pro', 'enterprise', 'premium'].includes(tier)) {
-    return 'claude-sonnet-4-20250514'
+    return 'claude-3-sonnet-4-20250514'
   }
 
   return 'claude-3-haiku-20240307'
@@ -62,7 +65,7 @@ export function getModelCapabilities(model: ClaudeModel): {
         costTier: 'low',
         description: 'Fast, cost-effective model with basic vision support'
       }
-    case 'claude-sonnet-4-20250514':
+    case 'claude-3-sonnet-4-20250514':
       return {
         vision: true,
         maxTokens: 8192,
@@ -75,6 +78,14 @@ export function getModelCapabilities(model: ClaudeModel): {
         maxTokens: 8192,
         costTier: 'high',
         description: 'Claude Sonnet 3.5 (legacy)'
+      }
+    default:
+      // Fallback for unknown or unsupported models
+      return {
+        vision: false,
+        maxTokens: 4096,
+        costTier: 'low',
+        description: 'Unknown model - using default capabilities'
       }
   }
 }
@@ -111,7 +122,7 @@ export function getRecommendedModelForService(
 
   // Pro/Enterprise/Premium always get Sonnet 3.7 for complex services
   if (['pro', 'enterprise', 'premium'].includes(tier) && complexServices.includes(serviceType)) {
-    return 'claude-sonnet-4-20250514'
+    return 'claude-3-sonnet-4-20250514'
   }
 
   // Default selection
@@ -131,7 +142,7 @@ export function validateModelSelection(
   // Haiku supports basic vision; allow it
 
   // Check tier access for Sonnet
-  if ((model === 'claude-sonnet-4-20250514' || model === 'claude-3-5-sonnet-20241022') && hasImages) {
+  if ((model === 'claude-3-sonnet-4-20250514' || model === 'claude-3-5-sonnet-20241022') && hasImages) {
     if (!tierSupportsVision(tier)) {
       return {
         valid: false,
@@ -144,6 +155,68 @@ export function validateModelSelection(
 }
 
 /**
+ * Select GLM model based on tier and requirements
+ */
+export function selectGLMModelForTier(
+  tier: SubscriptionTier,
+  hasImages: boolean = false,
+  preferLatest: boolean = true
+): GLMModel | null {
+  // GLM models are only available for Premium+ tiers
+  if (!['premium', 'pro', 'enterprise'].includes(tier)) {
+    return null
+  }
+
+  // Both GLM-4.6 and GLM-4-Plus support vision
+  if (hasImages) {
+    return preferLatest ? 'glm-4.6' : 'glm-4-plus'
+  }
+
+  // For text-only, prefer latest model for premium tiers
+  if (preferLatest && ['premium', 'pro', 'enterprise'].includes(tier)) {
+    return 'glm-4.6'
+  }
+
+  // Default to GLM-4-Plus for cost efficiency
+  return 'glm-4-plus'
+}
+
+/**
+ * Get provider fallback chain
+ * 
+ * Returns ordered list of models to try in order
+ */
+export function getProviderFallbackChain(
+  tier: SubscriptionTier,
+  hasImages: boolean = false,
+  preferOpenAI: boolean = false
+): Array<{ provider: 'claude' | 'glm' | 'openai'; model: ClaudeModel | GLMModel | OpenAIModel }> {
+  const chain: Array<{ provider: 'claude' | 'glm' | 'openai'; model: ClaudeModel | GLMModel | OpenAIModel }> = []
+
+  // If OpenAI is explicitly preferred, start with it
+  if (preferOpenAI && !hasImages) {
+    chain.push({ provider: 'openai', model: 'gpt-4o-mini' as OpenAIModel })
+  }
+
+  // Primary: Claude (best for education)
+  const claudeModel = selectModelForTier(tier, hasImages)
+  chain.push({ provider: 'claude', model: claudeModel })
+
+  // Secondary: GLM (good vision capabilities)
+  const glmModel = selectGLMModelForTier(tier, hasImages, true)
+  if (glmModel) {
+    chain.push({ provider: 'glm', model: glmModel })
+  }
+
+  // Tertiary: OpenAI (last resort)
+  if (!preferOpenAI) {
+    chain.push({ provider: 'openai', model: (hasImages ? 'gpt-4o' : 'gpt-4o-mini') as OpenAIModel })
+  }
+
+  return chain
+}
+
+/**
  * Get fallback model if primary fails
  * 
  * Useful for error recovery
@@ -153,12 +226,46 @@ export function getFallbackModel(
   tier: SubscriptionTier
 ): ClaudeModel {
   // If Sonnet fails, try Haiku (text-only)
-  if (primaryModel === 'claude-sonnet-4-20250514' || primaryModel === 'claude-3-5-sonnet-20241022') {
+  if (primaryModel === 'claude-3-sonnet-4-20250514' || primaryModel === 'claude-3-5-sonnet-20241022') {
     return 'claude-3-haiku-20240307'
   }
 
   // Haiku is already the fallback
   return primaryModel
+}
+
+/**
+ * Check if tier supports GLM models
+ */
+export function tierSupportsGLM(tier: SubscriptionTier): boolean {
+  return ['premium', 'pro', 'enterprise'].includes(tier)
+}
+
+/**
+ * Get GLM model capabilities
+ */
+export function getGLMModelCapabilities(model: GLMModel): {
+  vision: boolean
+  maxTokens: number
+  costTier: 'medium' | 'high'
+  description: string
+} {
+  switch (model) {
+    case 'glm-4.6':
+      return {
+        vision: true,
+        maxTokens: 8192,
+        costTier: 'high',
+        description: 'Latest GLM model with superior reasoning and vision capabilities'
+      }
+    case 'glm-4-plus':
+      return {
+        vision: true,
+        maxTokens: 8192,
+        costTier: 'medium',
+        description: 'Advanced GLM model with strong multimodal capabilities'
+      }
+  }
 }
 
 /**

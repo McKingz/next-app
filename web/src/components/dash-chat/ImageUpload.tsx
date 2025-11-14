@@ -95,27 +95,29 @@ export function ImageUpload({ onSelect, onClose, maxImages = 3 }: ImageUploadPro
 
   return (
     <div
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: 'rgba(0, 0, 0, 0.85)',
-        display: 'flex',
-        alignItems: 'flex-end',
-        justifyContent: 'center',
-        zIndex: 1000,
-        padding: 0,
-        backdropFilter: 'blur(4px)',
-      }}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0, 0, 0, 0.85)',
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'center',
+          zIndex: 1000,
+          padding: 0,
+          paddingBottom: 'max(0px, env(safe-area-inset-bottom))',
+          backdropFilter: 'blur(4px)',
+          WebkitBackdropFilter: 'blur(4px)',
+        }}
       onClick={onClose}
     >
       <div
         style={{
           background: 'var(--surface-0)',
           borderRadius: '24px 24px 0 0',
-          padding: '24px 20px 32px',
+          padding: '24px 20px max(32px, env(safe-area-inset-bottom))',
           maxWidth: 600,
           width: '100%',
           maxHeight: '85vh',
